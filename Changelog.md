@@ -3,7 +3,7 @@
 ### 8.14
 
 - Update kexts and drivers
-- Update Clover to 
+- Update Clover to r5045
 
 ### 7.7
 
