@@ -252,13 +252,13 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>C02625701GUHCF9FB</string>
+		<string>FillThis</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>C02RW0TEGTFN</string>
+		<string>FillThis</string>
 		<key>SmUUID</key>
-		<string>45CE220C-AEEC-4451-B14C-C9EB5816D83E</string>
+		<string>FillThis</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>

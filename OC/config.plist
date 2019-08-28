@@ -496,15 +496,13 @@
 		<key>Generic</key>
 		<dict>
 			<key>MLB</key>
-			<string>C02625701GUHCF9FB</string>
-			<key>ROM</key>
-			<data>ESIzAAAA</data>
+			<string>FillThis</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
-			<string>C02RW0TEGTFN</string>
+			<string>FillThis</string>
 			<key>SystemUUID</key>
-			<string>45CE220C-AEEC-4451-B14C-C9EB5816D83E</string>
+			<string>FillThis</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
