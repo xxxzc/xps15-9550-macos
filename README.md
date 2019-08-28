@@ -15,6 +15,8 @@ You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-
 
 But note that please create an issue **in my repository** if you encounter any problem when **using my files or following my tutorial** ( Please don't disturb others ). My writing in English is poooooor:(, but I can read :). 
 
+### Important
+
 Please use **Clover Configurator** or other tool to **generate new SerialNumber, BoardSerialNumber(MLB) and SmUUID**, and replace those values in config.plist.
 
 ## Issues
@@ -22,7 +24,7 @@ Please use **Clover Configurator** or other tool to **generate new SerialNumber,
 ### Disable Hibernation and Fix Sleep Issues
 
 ```shell
-sudo pmset -a hibernatemode 0
+sudo pmset -a hibernatemode 3
 sudo pmset -a autopoweroff 0
 sudo pmset -a standby 0
 sudo pmset -b tcpkeepalive 0 (optional)
@@ -30,7 +32,7 @@ sudo pmset -b tcpkeepalive 0 (optional)
 
 `-b` - Battery, `-c` - AC Power, and `-a` means both.
 
-Please uncheck all options (except `Prevent computer from sleeping...`) in the `Energy Saver` panel.
+Please uncheck all options (except `Prevent computer from sleeping...`, which is optional) in the `Energy Saver` panel. 
 
 ### Headphone
 
