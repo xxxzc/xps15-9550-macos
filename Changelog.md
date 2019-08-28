@@ -1,11 +1,62 @@
 ##  Changelog
 
-### 8.14
+### Aug
 
-- Update kexts and drivers
-- Update Clover to r5045
+#### SSDTs
 
-### 7.7
+Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-little/, it's awesome.
+
+- Add `SSDT-ALCC` for ALC298 codec command. [SSDT-ALC298.dsl](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/src/master/SSDT-ALC298.dsl)
+
+- `SSDT-BCKM>SSDT-BRT6+SSDT-PNLF` 
+
+  According to OC configuration, `_OSI to XOSI` patching and `SSDT-XOSI` shoud be avoid, but `SSDT-BRT6` required `OSID` and `_OSI` renaming patch and `SSDT-XOSI`.
+
+  After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` while `ACOS` was initialized (based on `_OSI` ) and returned by `OSID` method. So we just set `ACOS` to `0x80` to avoid those patches.
+
+- Combien `SSDT-DMAC + SSDT-HPET + SSDT-PMCR + SSDT-SBUS` to one `SSDT-PIC0` file, these SSDTs are necessary. Source: [08-添加丢失的部件](https://github.com/daliansky/OC-little/tree/master/08-%E6%B7%BB%E5%8A%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%83%A8%E4%BB%B6)
+
+- Add `SSDT-EC` to load USB power manager and to remove `ECDV to EC` patch. See [SSDT-EC.dsl](https://github.com/daliansky/OC-little/blob/master/03-%E4%BB%BF%E5%86%92EC/SSDT-EC.dsl) for more information.
+
+- Add `SSDT-PLUG` to inject `plugin-type=1`.
+
+- Replace `SSDT-I2C` with `SSDT-TPXX`. Because `SSDT-I2C` need `_OSI to XOSI` renaming to work, but this renaming should be avoid. Instead, we can create another I2C Device, named TPXX, with custom behavior to support I2C GPIO mode, [Instruction Guide](https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95).
+
+  For XPS15, there are two extra steps:  `_SB.PCI0.GPI0._STA` should return `0x0F` and origin `GPI0._STA` method should be renamed.
+
+- Remove `SSDT-PTSWAK` and related patches, no shutdown/wake issue found.
+
+- Remoe `SSDT-RMCF`, because no other SSDTs need variables that defined in this file.
+
+- Replace `SSDT-UPRW` with `SSDT-GPRW` to fix instant wake(sleep) issue in AC mode.
+
+-  `SSDT-TYPC = SSDT-YTBT+SSDT-TYPC` 
+
+- Remove `SSDT-XOSI` and related patches.
+
+- Remove `SSDT-USBX`, usb current limit defined in `USBPorts.kext`.
+
+### Patches
+
+Only keep following four patches, and each patch only change one place (method) in DSDT.
+
+- `BRT6 -> BRTX`
+
+- `GPRW -> YPRW`
+
+- `GPI0._STA -> GPI0.XSTA` 
+
+- `RP15.PXSX._RMV -> XRMV`  
+
+  This patch only change _RMV method in RP15 device, will not affect other RPXX devices.
+
+#### Others
+
+- Update kexts and drivers to latest
+- Update Clover to r5058
+- Support OpenCore v0.0.4
+
+### July
 
 #### Kext & Driver
 
@@ -27,21 +78,17 @@ There are two methods to drive headphone:
 1. Layout-id 30 + CodecCommander
 2. Avaliable layout-id + CodecCommander + ALCPlugFix
 
-`CodecCommander` can fix distorted audio, technically, sending `SET_PIN_WIDGET_CONTROL` command to HDA. `CodecCommander` can work during boot, upon sleep or at wake, but it cannot detect headphone plug-in. 
-
-For layout-id 30, headphone works properly except wake from sleep in battery mode, `CodecCommander` with custom patch can fix this problem - simply sending a signal at wake. 
-
-But other layout-ids are not so lucky - headphone is distorted inherently, which means fixing is need every time you plug-in a headphone, so we need `ALCPlugFix` to detect headphone plug-in event and send above command.
+`CodecCommander` can fix distorted audio, technically, sending `SET_PIN_WIDGET_CONTROL` command to HDA, but it cannot detect headphone plug-in, we need `ALCPlugFix` to detect headphone plug-in event and send above command.
 
 #### Others
 
 Update Clover to r4972
 
-### 6.1
+### Jun
 
 Add `CodecCommander` , `SSDT-ALC298`, `FixHDA` to fix distorted audio after sleep
 
-### 5.31
+### May
 
 #### Kext & Driver
 
@@ -58,163 +105,70 @@ Add `CodecCommander` , `SSDT-ALC298`, `FixHDA` to fix distorted audio after slee
 
 #### Others
 
-Update Clover to r4934
+- Update Clover to r4934
 
-Clean up config file
+- Clean up config file
 
-### 5.4
-
-#### Kext
-
-更新 `AppleALC`、`WhateverGreen`、`Lilu`、`VoodooI2C`
-
-#### 其他
-
-更新 Clover 到 4920
-
-修改 config.plist 以尝试减少偶尔发生的 Display Flickering
-
-### 3.31
+### Mar
 
 #### Kext
 
-更新 `AppleALC`、`WhateverGreen`、`Lilu`
+- Update kexts
+- Use VoodooI2C from [the-darkvoid/XPS9360-macOS](<https://github.com/the-darkvoid/XPS9360-macOS/tree/master/kexts/VoodooI2C.kext>)
+- Delete Mouse plugin in `VoodooPS2Controller`, which is conflict with MOS app
+- Add `RTCMemoryFixup`
 
-使用 [the-darkvoid/XPS9360-macOS](<https://github.com/the-darkvoid/XPS9360-macOS/tree/master/kexts/VoodooI2C.kext>) 的 `VoodooI2C`
+#### Others
 
-删除 `VoodooPS2Controller` 的鼠标插件，会与 MOS 冲突，导致鼠标滚动卡顿
+- Replace `SSDT-TYPC+SSDT-YTBT` with `SSDT-THBT`
 
-#### 其他
+- Update Clover to r4910
 
-使用 `SSDT-THBT` 代替 `SSDT-TYPC+SSDT-YTBT`
-
-更新 Clover 到 4910
-
-更新 `AptioMemeoryFix`
-
-### 3.7
-
-更新 `Lilu`，增加 `RTCMemoryFixup`
-
-更新 Clover 到 4895
-
-### 2.11
+### Feb
 
 #### Audio
 
-1. 参考 [Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96) 将 layout-id 改为 30 以解决耳机失真
-2. 删除 `CodecCommander` 
-
-现在你可以卸载 `ALC298PluginFix` 看看耳机是否能正常工作。
+2. Delete `CodecCommander` 
+2. Change layout-id to 30 ([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96))
 
 #### Kext
 
-更新 `Lilu`、`AppleALC` 和 `CPUFriend`
+- Update kexts
 
-加回 `NoTouchID`，13,3 在安装的时候还是会出现 TouchID 设置
-
-#### SSDT
-
-将 `SSDT-GPRW` 换成 `SSDT-UPRW` （据 [issue#14](https://github.com/xxxzc/xps15-9550-macos/issues/14)）
-
-加回 `SSDT-HPET`和 `SSDT-MEM2` 
+- Add `NoTouchID` back
 
 #### Clover
 
-更新 Clover 到 4871，更新 drivers
+Update Clover to r4871
 
-### 1.16
+### Jan
 
-更新 `AirportBrcmFixup` 到 `1.1.9` 并加上 `brcmfx-country=#a` 以解决 WiFi 5G 速度问题，见 [issues#12](https://github.com/xxxzc/xps15-9550-macos/issues/12)，感谢 @CyJaySong 。
-
-### 1.4
-
-#### Kext
-
-更新 `Lilu`、`WhateverGreen`、`AirportBrcmFixup`
-
-更新 `CPUFriend` 和 `CPUFriendDataProvider`。我才发现之前用的 CPUFriend 居然是 `1.1.3`。。难怪需要启动参数才能 enable。现在这些 kext 都默认支持 10.14，不需要 `-lilubetaall` 了。 
-
-删除 `NoTouchID`，因为 MacBookPro 13,3 模型没有 Touch ID，不需要这个 kext。
+Update `AirportBrcmFixup` to `1.1.9` and add `brcmfx-country=#a` boot arg to fix 5G WiFi speed, thanks @CyJaySong. [issues#12](https://github.com/xxxzc/xps15-9550-macos/issues/12)
 
 #### SSDT
 
-更新 `SSDT-RMCF.aml` 和 `SSDT-PNLF.aml` （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）
+Update `SSDT-RMCF.aml` and `SSDT-PNLF.aml` （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）
 
-#### Theme
+### Nov
 
-更新 Nightwish(256)（from `CloverThemeManager`）
+- Update kexts
 
-### 12.23
+- Change USB2.0 to 3 in USBPorts.kext, according to：
 
-更新 `Lilu`、`AppleALC`、`VirtualSMC`、`WhateverGreen`、`AirportBrcmFixup`
+  > HSxx ports connected to USB3 ports should be set to USB3
 
-删除 `AppleBacklightFixup`，已经集成到了 WhateverGreen 里
+- Delete SSDT-ALS0.aml
 
-更新 Clover 到 4813，但是 Clover Configurator 里还是显示 4603
+### Oct
 
-修改了一点 `config.plist` 配置
+- Replace `AppleBacklightInjector` with [Rehabman/AppleBacklightFixup](https://github.com/RehabMan/AppleBacklightFixup) 
 
-- 删除 Framebuffer Connectors，之前没有这些连不了外接显示器，现在不知道为什么删了还可以，所以删了
-- 去掉了 AppleRTC 和 KernelPM，似乎没啥用
+- Update Clover to R4697。
 
-### 11.2
+- Use Nightwish256 theme。
 
-更新 Lilu、AppleALC、VirtualSMC、WhateverGreen
+- Update SSDT-Config to SSDT-RMCF （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）and delete IGPU and Audio related SSDTs。
+- Update kexts
 
-修正 USBPorts.kext 里两个 USB2.0 的值为 3，根据如下：
-
-```
-HSxx ports connected to USB3 ports should be set to USB3
-```
-
-（希望我没有会错意= =）
-
-删除 SSDT-ALS0.aml
-
-### 10.15
-
-使用 [Rehabman/AppleBacklightFixup](https://github.com/RehabMan/AppleBacklightFixup) 代替 `AppleBacklightInjector` 
-
-### 10.10
-
-将 Clover 更新到 Rehabman 版本的 R4697。
-
-尝试修复唤醒无声的问题，还需要多测试。
-
-将主题换成了 Nightwish(256)，默认使用 Nightwish256。
-
-更新了一些 SSDT 和 kexts。
-
-- 将 SSDT-Config 更新为 SSDT-RMCF （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)），并更新一些相关的 SSDT。主要是删除了所有 IGPU 和 Audio 的 Injection。
-- 更新 `AirportBrcmFixup` ， `CodecCommander`，  `VoodooPS2Controller` 以及 `BT4LEContiunityFixup`
-
-删除提高 VRAM 的 patching。
-
-另外发现将 `brcmfx-country` 设置成 `CN` 会导致一些 WiFi 连不上。
-
-### 10.4
-
-将 `SSDT-TB.aml` 换为 `SSDT-TYPC.aml+SSDT-YTBT.aml` 以解决 type-c 的连接问题 。
-
-### 10.3
-
-使用 [Intel FB-Patcher v1.4.5](https://www.tonymacx86.com/threads/release-intel-fb-patcher-v1-4-5.254559/) 重新生成 Framebuffer Patching 和 `USBPort.kext`。之前 Patching 的 `ig-platform-id` 是错误的，这应该是导致 4K 屏直接睡死的主要原因。之前用的 `USBPort.kext` 也是错误的。
-
-- 删除了一些无用的 DSDT/SSDT，同时添加了每个 DSDT 的简单描述信息。
-- 使用 `USBPort.kext` 替代之前的 `SSDT-XHC.aml`
-
-改用 [wmchris/DellXPS15-9550-OSX](https://github.com/wmchris/DellXPS15-9550-OSX) 中的 `AppleBacklightInjector.kext`和亮度相关的 dsdt。现在最低亮度比之前低了很多。
-
-### 10.2
-
-改用 [corenel/XPS9550-macOS](https://github.com/corenel/XPS9550-macOS) 的 SSDT/DSDT，其他基本保持不变，主要做了如下修改：
-
-- 删除 `SSDT-ALC298a` ，现在是用 `config.plist` 中注入
-- 删除 `SSDT-pr.aml`，现在使用 `CPUFriend` 实现
-- 替换 `SSDT-XOSI.aml` 以支持 `VoodooI2C`
-- 删除 `USBPort.kext` ，他应该是在 `SSDT-XHC.aml` 里实现了 USB 接口注入
-- 增加 `SSDT_IGPU_Syspref.aml` 配合 `agdpmod=vit9696` 以实现外接显示器
-
-换用这个的主要原因之前的 USB 接口有问题。
+- Replace `SSDT-TB.aml` with `SSDT-TYPC.aml+SSDT-YTBT.aml` to solve USB-C problem
 
