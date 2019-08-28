@@ -15,13 +15,9 @@ You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-
 
 But note that please create an issue **in my repository** if you encounter any problem when **using my files or following my tutorial** ( Please don't disturb others ). My writing in English is poooooor:(, but I can read :). 
 
-Please use **Clover Configurator** or other tool to **generate new SerialNumber, BoardSerialNumber(MLB) and SmUUID**, and replace those value in config.plist.
+Please use **Clover Configurator** or other tool to **generate new SerialNumber, BoardSerialNumber(MLB) and SmUUID**, and replace those values in config.plist.
 
 ## Issues
-
-### Skip Clover GUI
-
-Open `config.plist` and set  `Timeout` to `0`  in `Boot` section. (See [Configuration/Boot](https://clover-wiki.zetam.org/Configuration/Boot))
 
 ### Disable Hibernation and Fix Sleep Issues
 

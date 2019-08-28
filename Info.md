@@ -34,14 +34,14 @@ This kext is generated using [Hackintool v2.7.6](https://www.tonymacx86.com/thre
 | AML                                                          | Description                                      | Patches/Changes                                              |
 | ------------------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------ |
 | [SSDT-ALCC](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/src/master/SSDT-ALC298.dsl) | ALC298 command to fix distorted audio after wake |                                                              |
-| [SSDT-BCKM](https://github.com/daliansky/OC-little/tree/master/保留项目/X02-亮度快捷键补丁) | Brightness control key mapping                   | `Rename method BRT6 to BRTX`<br/>Set `ACOS = 0x80`<br/>`SSDT-PNLF` was merged into this file. |
+| [SSDT-BCKM](https://github.com/daliansky/OC-little/tree/master/保留项目/X02-亮度快捷键补丁) | Brightness control key mapping                   | `Rename method BRT6 to BRTX`<br/>Set `ACOS = 0x80`<br/>`SSDT-PNLF` was included in this file. |
 | [SSDT-DGPU](https://github.com/RehabMan/OS-X-Clover-Laptop-Config/blob/master/hotpatch/SSDT-DDGPU.dsl) | Disable dGPU                                     |                                                              |
 | [SSDT-EC](https://github.com/daliansky/OC-little/tree/master/03-%E4%BB%BF%E5%86%92EC) | Add EC Device to load USB power manager          |                                                              |
+| [SSDT-GPRW](https://www.tonymacx86.com/threads/guide-dell-xps-15-9560-4k-touch-1tb-ssd-32gb-ram-100-adobergb.224486/) | Fix instant wake                                 | `Rename method GPRW to YPRW`                                 |
 | [SSDT-PCI0](https://github.com/daliansky/OC-little/tree/master/08-添加丢失的部件) | Add various missing devices, not necessary       | SSDT-MCHC, SSDT-DMAC, SSDT-HPET and SSDT-SBUS were merged into this file |
 | [SSDT-PLUG](https://github.com/daliansky/OC-little/tree/master/02-%E6%B3%A8%E5%85%A5X86) | Inject `plugin-type=1`                           |                                                              |
-| [SSDT-GPRW](https://www.tonymacx86.com/threads/guide-dell-xps-15-9560-4k-touch-1tb-ssd-32gb-ram-100-adobergb.224486/) | Fix instant wake                                 | `Rename method GPRW to YPRW`                                 |
 | [SSDT-TPXX](https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95) | Add TPXX device to replace TPD1(Touchpad)        | `Change GPI0._STA to XSTA`<br/>Add GPI0 method to make this work |
-| [SSDT-TYPC](https://www.tonymacx86.com/threads/guide-dell-xps-15-9560-4k-touch-1tb-ssd-32gb-ram-100-adobergb.224486/) | Type-C hotplug                                   | `Rename RP15.PXSX._RMV to XRMV`<br/>`SSDT-YTBT` was merged into this file |
+| [SSDT-TYPC](https://www.tonymacx86.com/threads/guide-dell-xps-15-9560-4k-touch-1tb-ssd-32gb-ram-100-adobergb.224486/) | Type-C hotplug                                   | `Rename RP15.PXSX._RMV to XRMV`<br/>`SSDT-YTBT` was included in this file |
 
 ## Credits
 

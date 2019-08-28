@@ -73,7 +73,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename method GPRW to YPRW, pair with SSDT-PRW.aml</string>
+				<string>Rename method GPRW to YPRW, pair with SSDT-GPRW.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>

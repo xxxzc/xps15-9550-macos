@@ -8,13 +8,13 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - Add `SSDT-ALCC` for ALC298 codec command. [SSDT-ALC298.dsl](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/src/master/SSDT-ALC298.dsl)
 
-- `SSDT-BCKM>SSDT-BRT6+SSDT-PNLF` 
+- `SSDT-BCKM > SSDT-BRT6 + SSDT-PNLF` 
 
   According to OC configuration, `_OSI to XOSI` patching and `SSDT-XOSI` shoud be avoid, but `SSDT-BRT6` required `OSID` and `_OSI` renaming patch and `SSDT-XOSI`.
 
   After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` while `ACOS` was initialized (based on `_OSI` ) and returned by `OSID` method. So we just set `ACOS` to `0x80` to avoid those patches.
 
-- Combien `SSDT-DMAC + SSDT-HPET + SSDT-PMCR + SSDT-SBUS` to one `SSDT-PIC0` file, these SSDTs are necessary. Source: [08-添加丢失的部件](https://github.com/daliansky/OC-little/tree/master/08-%E6%B7%BB%E5%8A%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%83%A8%E4%BB%B6)
+-  `SSDT-DMAC + SSDT-HPET + SSDT-PMCR + SSDT-SBUS` were merged into `SSDT-PIC0`, these SSDTs are not necessary. Source: [08-添加丢失的部件](https://github.com/daliansky/OC-little/tree/master/08-%E6%B7%BB%E5%8A%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%83%A8%E4%BB%B6)
 
 - Add `SSDT-EC` to load USB power manager and to remove `ECDV to EC` patch. See [SSDT-EC.dsl](https://github.com/daliansky/OC-little/blob/master/03-%E4%BB%BF%E5%86%92EC/SSDT-EC.dsl) for more information.
 
@@ -30,11 +30,11 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - Replace `SSDT-UPRW` with `SSDT-GPRW` to fix instant wake(sleep) issue in AC mode.
 
--  `SSDT-TYPC = SSDT-YTBT+SSDT-TYPC` 
+-  `SSDT-TYPC = SSDT-YTBT + SSDT-TYPC` 
 
 - Remove `SSDT-XOSI` and related patches.
 
-- Remove `SSDT-USBX`, usb current limit defined in `USBPorts.kext`.
+- Remove `SSDT-USBX`, usb current limit can be defined in `USBPorts.kext`.
 
 ### Patches
 
