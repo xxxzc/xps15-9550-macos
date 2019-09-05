@@ -1,5 +1,15 @@
 ##  Changelog
 
+### Sep
+
+#### SSDT
+
+- Add `SSDT-PTSWAK` back and put it in `SSDT-DGPU` file, since both have the same purpose that is to disable discrete GPU.
+
+#### Patch
+
+- Add `_PTS`  and `_WAK` renaming back for `SSDT-PTSWAK` to work
+
 ### Aug
 
 #### SSDTs
@@ -10,21 +20,19 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - `SSDT-BCKM > SSDT-BRT6 + SSDT-PNLF` 
 
-  According to OC configuration, `_OSI to XOSI` patching and `SSDT-XOSI` shoud be avoid, but `SSDT-BRT6` required `OSID` and `_OSI` renaming patch and `SSDT-XOSI`.
+  According to OC configuration, `_OSI to XOSI` patching and `SSDT-XOSI` shoud be avoid, but `SSDT-BRT6` require `OSID` and `_OSI` renaming patch and `SSDT-XOSI`.
 
-  After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` while `ACOS` was initialized (based on `_OSI` ) and returned by `OSID` method. So we just set `ACOS` to `0x80` to avoid those patches.
+  After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` and `ACOS` was initialized based on `_OSI`  and was returned by `OSID` method. If we set `ACOS` to `0x80` (the value that was initialized on Windows 2015) directly in root scope, the initialization process will not be excuted and `OSID`  method is still working properly, in this way,  `OSID` and `_OSI` renaming are not needed.
 
 -  `SSDT-DMAC + SSDT-HPET + SSDT-PMCR + SSDT-SBUS` were merged into `SSDT-PIC0`, these SSDTs are not necessary. Source: [08-添加丢失的部件](https://github.com/daliansky/OC-little/tree/master/08-%E6%B7%BB%E5%8A%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%83%A8%E4%BB%B6)
 
-- Add `SSDT-EC` to load USB power manager and to remove `ECDV to EC` patch. See [SSDT-EC.dsl](https://github.com/daliansky/OC-little/blob/master/03-%E4%BB%BF%E5%86%92EC/SSDT-EC.dsl) for more information.
+- Add `SSDT-EC` to load USB power manager and then we can remove `ECDV to EC` patch. See [SSDT-EC.dsl](https://github.com/daliansky/OC-little/blob/master/03-%E4%BB%BF%E5%86%92EC/SSDT-EC.dsl) for more information.
 
 - Add `SSDT-PLUG` to inject `plugin-type=1`.
 
-- Replace `SSDT-I2C` with `SSDT-TPXX`. Because `SSDT-I2C` need `_OSI to XOSI` renaming to work, but this renaming should be avoid. Instead, we can create another I2C Device, named TPXX, with custom behavior to support I2C GPIO mode, [Instruction Guide](https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95).
+- Replace `SSDT-I2C` with `SSDT-TPXX`. Because `SSDT-I2C` need `_OSI to XOSI` renaming to simulate Windows, but this renaming should be avoid. Instead, we can create another I2C Device, named TPXX, with custom `_CRS` method to support I2C GPIO mode, [Instruction Guide](https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95).
 
-  For XPS15, there are two extra steps:  `_SB.PCI0.GPI0._STA` should return `0x0F` and origin `GPI0._STA` method should be renamed.
-
-- Remove `SSDT-PTSWAK` and related patches, no shutdown/wake issue found.
+  For XPS15, there are two extra steps:  `_SB.PCI0.GPI0._STA` should return `0x0F`  tio active GPI0 and origin `GPI0._STA` method should be renamed.
 
 - Remoe `SSDT-RMCF`, because no other SSDTs need variables that defined in this file.
 
@@ -34,7 +42,7 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - Remove `SSDT-XOSI` and related patches.
 
-- Remove `SSDT-USBX`, usb current limit can be defined in `USBPorts.kext`.
+- Remove `SSDT-USBX`, because usb-current limitation was defined in `USBPorts.kext`.
 
 ### Patches
 

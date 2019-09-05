@@ -21,7 +21,7 @@ Please use **Clover Configurator** or other tool to **generate new SerialNumber,
 
 ## Issues
 
-### Disable Hibernation and Fix Sleep Issues
+### Fix Sleep Issues
 
 ```shell
 sudo pmset -a hibernatemode 3
@@ -32,7 +32,7 @@ sudo pmset -b tcpkeepalive 0 (optional)
 
 `-b` - Battery, `-c` - AC Power, and `-a` means both.
 
-Please uncheck all options (except `Prevent computer from sleeping...`, which is optional) in the `Energy Saver` panel. 
+Please uncheck all options (except `Prevent computer from sleeping...`, which is optional) in the `Energy Saver` panel.
 
 ### Headphone
 

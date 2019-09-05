@@ -13,7 +13,7 @@
 			<key>Fixes</key>
 			<dict>
 				<key>FixADP1</key>
-				<true/>
+				<false/>
 				<key>FixAirport</key>
 				<false/>
 			</dict>
@@ -46,6 +46,26 @@
 					<data>
 					FEAGWVBSVwI=
 					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>Rename method _PTS to ZPTS, pair with SSDT-PTSWAK.aml</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>FEkEX1BUUwE=</data>
+					<key>Replace</key>
+					<data>FEkEWlBUUwE=</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>Rename method _WAK to ZWAK, pair with SSDT-PTSWAK.aml</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>FDlfV0FLAQ==</data>
+					<key>Replace</key>
+					<data>FDlaV0FLAQ==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -117,14 +137,14 @@
 			<key>Generate</key>
 			<dict>
 				<key>PluginType</key>
-				<true/>
+				<false/>
 			</dict>
 		</dict>
 	</dict>
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696 -v</string>
+		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=0</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -251,11 +271,11 @@
 	</dict>
 	<key>SMBIOS</key>
 	<dict>
-		<key>BoardSerialNumber</key>
-		<string>FillThis</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
+		<string>FillThis</string>
+		<key>BoardSerialNumber</key>
 		<string>FillThis</string>
 		<key>SmUUID</key>
 		<string>FillThis</string>

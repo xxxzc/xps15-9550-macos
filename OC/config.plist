@@ -87,6 +87,26 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
+				<string>Rename method _PTS to ZPTS, pair with SSDT-PTSWAK.aml</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>FEkEX1BUUwE=</data>
+				<key>Replace</key>
+				<data>FEkEWlBUUwE=</data>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Rename method _WAK to ZWAK, pair with SSDT-PTSWAK.aml</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>FDlfV0FLAQ==</data>
+				<key>Replace</key>
+				<data>FDlaV0FLAQ==</data>
+			</dict>
+			<dict>
+				<key>Comment</key>
 				<string>Change GPI0._STA to XSTA, pair with SSDT-TPXX.aml</string>
 				<key>Enabled</key>
 				<true/>
@@ -495,11 +515,11 @@
 		<true/>
 		<key>Generic</key>
 		<dict>
-			<key>MLB</key>
-			<string>FillThis</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
+			<string>FillThis</string>
+			<key>MLB</key>
 			<string>FillThis</string>
 			<key>SystemUUID</key>
 			<string>FillThis</string>
