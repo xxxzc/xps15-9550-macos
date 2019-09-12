@@ -2,7 +2,7 @@
 
 `XPS15-9550`  `i5-6300HQ`  `16GB`  `PM961 512G`  `4K Display`  `1080P Monitor`
 
-`10.15 Beta 19A536g`  `MacBookPro13,3 `
+`10.15 Beta 19A558d`  `MacBookPro13,3 `
 
 ### Not Working 
 

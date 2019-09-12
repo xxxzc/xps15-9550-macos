@@ -2,13 +2,17 @@
 
 ### Sep
 
-#### SSDT
+#### SSDT and Patch
 
 - Add `SSDT-PTSWAK` back and put it in `SSDT-DGPU` file, since both have the same purpose that is to disable discrete GPU.
 
-#### Patch
-
 - Add `_PTS`  and `_WAK` renaming back for `SSDT-PTSWAK` to work
+
+#### Others
+
+- Update kexts and drivers to latest
+- Update OpenCore to 0.5.0
+- Update Clover to 5070
 
 ### Aug
 
@@ -32,9 +36,9 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - Replace `SSDT-I2C` with `SSDT-TPXX`. Because `SSDT-I2C` need `_OSI to XOSI` renaming to simulate Windows, but this renaming should be avoid. Instead, we can create another I2C Device, named TPXX, with custom `_CRS` method to support I2C GPIO mode, [Instruction Guide](https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95).
 
-  For XPS15, there are two extra steps:  `_SB.PCI0.GPI0._STA` should return `0x0F`  tio active GPI0 and origin `GPI0._STA` method should be renamed.
+  For XPS15, there are two extra steps:  `_SB.PCI0.GPI0._STA` should return `0x0F`  to activate GPI0 and origin `GPI0._STA` method should be renamed.
 
-- Remoe `SSDT-RMCF`, because no other SSDTs need variables that defined in this file.
+- Remove `SSDT-RMCF`, because no other SSDTs need variables that defined in this file.
 
 - Replace `SSDT-UPRW` with `SSDT-GPRW` to fix instant wake(sleep) issue in AC mode.
 

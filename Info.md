@@ -3,7 +3,7 @@
 |                             Kext                             | Version |
 | :----------------------------------------------------------: | ------- |
 | [AirportBrcmFixup](https://github.com/acidanthera/AirportBrcmFixup) | 2.0.3   |
-|     [AppleALC](https://github.com/acidanthera/AppleALC)      | 1.4.0   |
+|     [AppleALC](https://github.com/acidanthera/AppleALC)      | 1.4.1   |
 | [BrcmBluetoothInjector+BrcmFirmwareData+BrcmPatchRAM2](https://github.com/headkaze/OS-X-BrcmPatchRAM/releases) | 2.2.12  |
 | [BT4LEContinuityFixup](https://github.com/acidanthera/BT4LEContinuityFixup) | 1.1.4   |
 | [CodecCommander](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/downloads/) | 1003    |
@@ -14,8 +14,8 @@
 | [VirtualSMC+SMCBatteryManager+SMCProcessor](https://github.com/acidanthera/VirtualSMC) | 1.0.7   |
 | [USBPorts](https://www.tonymacx86.com/threads/release-intel-fb-patcher-v1-4-5.254559/) | 2.7.6   |
 | [VoodooI2C+VoodooI2CHID](https://github.com/alexandred/VoodooI2C) | 2.2     |
-| [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2/releases) | 2.0.2   |
-| [WhateverGreen](https://github.com/acidanthera/WhateverGreen) | 1.3.1   |
+| [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2/releases) | 2.0.3   |
+| [WhateverGreen](https://github.com/acidanthera/WhateverGreen) | 1.3.2   |
 
 #### About USBPorts.kext
 
