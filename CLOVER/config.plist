@@ -10,13 +10,6 @@
 		<dict>
 			<key>DropOEM_DSM</key>
 			<false/>
-			<key>Fixes</key>
-			<dict>
-				<key>FixADP1</key>
-				<false/>
-				<key>FixAirport</key>
-				<false/>
-			</dict>
 			<key>Patches</key>
 			<array>
 				<dict>
@@ -53,9 +46,13 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>FEkEX1BUUwE=</data>
+					<data>
+					FEkEX1BUUwE=
+					</data>
 					<key>Replace</key>
-					<data>FEkEWlBUUwE=</data>
+					<data>
+					FEkEWlBUUwE=
+					</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -63,9 +60,13 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>FDlfV0FLAQ==</data>
+					<data>
+					FDlfV0FLAQ==
+					</data>
 					<key>Replace</key>
-					<data>FDlaV0FLAQ==</data>
+					<data>
+					FDlaV0FLAQ==
+					</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -113,32 +114,12 @@
 				</dict>
 			</array>
 		</dict>
-		<key>DropTables</key>
-		<array>
-			<dict>
-				<key>Signature</key>
-				<string>SSDT</string>
-				<key>TableId</key>
-				<string>xh_rvp10</string>
-			</dict>
-			<dict>
-				<key>Signature</key>
-				<string>SSDT</string>
-				<key>TableId</key>
-				<string>PtidDevc</string>
-			</dict>
-		</array>
 		<key>FixHeaders</key>
 		<true/>
 		<key>SSDT</key>
 		<dict>
 			<key>DropOem</key>
 			<false/>
-			<key>Generate</key>
-			<dict>
-				<key>PluginType</key>
-				<false/>
-			</dict>
 		</dict>
 	</dict>
 	<key>Boot</key>
@@ -176,6 +157,8 @@
 		<dict>
 			<key>Inject</key>
 			<string>No</string>
+			<key>ResetHDA</key>
+			<true/>
 		</dict>
 		<key>Properties</key>
 		<dict>
@@ -191,10 +174,6 @@
 				<key>AAPL,ig-platform-id</key>
 				<data>
 				AAAbGQ==
-				</data>
-				<key>disable-external-gpu</key>
-				<data>
-				AQAAAA==
 				</data>
 				<key>enable-hdmi20</key>
 				<data>
@@ -246,19 +225,10 @@
 	<key>Graphics</key>
 	<dict>
 		<key>Inject</key>
-		<dict>
-			<key>AMD</key>
-			<false/>
-			<key>Intel</key>
-			<false/>
-			<key>Nvidia</key>
-			<false/>
-		</dict>
+		<false/>
 	</dict>
 	<key>KernelAndKextPatches</key>
 	<dict>
-		<key>AppleRTC</key>
-		<true/>
 		<key>Debug</key>
 		<false/>
 		<key>DellSMBIOSPatch</key>
@@ -270,16 +240,18 @@
 	</dict>
 	<key>RtVariables</key>
 	<dict>
+		<key>BooterConfig</key>
+		<string>0x28</string>
 		<key>CsrActiveConfig</key>
 		<string>0x67</string>
 	</dict>
 	<key>SMBIOS</key>
 	<dict>
+		<key>BoardSerialNumber</key>
+		<string>FillThis</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>FillThis</string>
-		<key>BoardSerialNumber</key>
 		<string>FillThis</string>
 		<key>SmUUID</key>
 		<string>FillThis</string>
@@ -287,7 +259,7 @@
 	<key>SystemParameters</key>
 	<dict>
 		<key>InjectKexts</key>
-		<string>Detect</string>
+		<string>Yes</string>
 		<key>InjectSystemID</key>
 		<true/>
 	</dict>

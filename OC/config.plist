@@ -16,12 +16,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Path</key>
-				<string>SSDT-ALCC.aml</string>
-			</dict>
-			<dict>
-				<key>Enabled</key>
-				<true/>
-				<key>Path</key>
 				<string>SSDT-BCKM.aml</string>
 			</dict>
 			<dict>
@@ -91,9 +85,13 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
-				<data>FEkEX1BUUwE=</data>
+				<data>
+				FEkEX1BUUwE=
+				</data>
 				<key>Replace</key>
-				<data>FEkEWlBUUwE=</data>
+				<data>
+				FEkEWlBUUwE=
+				</data>
 			</dict>
 			<dict>
 				<key>Comment</key>
@@ -101,9 +99,13 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
-				<data>FDlfV0FLAQ==</data>
+				<data>
+				FDlfV0FLAQ==
+				</data>
 				<key>Replace</key>
-				<data>FDlaV0FLAQ==</data>
+				<data>
+				FDlaV0FLAQ==
+				</data>
 			</dict>
 			<dict>
 				<key>Comment</key>
@@ -129,11 +131,21 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
-				<data>X1JNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuAUFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJUUwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQAcAodUDJUQhQtSFBNRQigJpCSk1ZESUQM</data>
+				<data>
+				X1JNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuA
+				UFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJU
+				UwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQA
+				cAodUDJUQhQtSFBNRQigJpCSk1ZESUQM
+				</data>
 				<key>Replace</key>
-				<data>WFJNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuAUFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJUUwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQAcAodUDJUQhQtSFBNRQigJpCSk1ZESUQM</data>
+				<data>
+				WFJNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuA
+				UFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJU
+				UwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQA
+				cAodUDJUQhQtSFBNRQigJpCSk1ZESUQM
+				</data>
 			</dict>
-		</array>	
+		</array>
 	</dict>
 	<key>Booter</key>
 	<dict>
@@ -226,7 +238,7 @@
 				<true/>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
-			</dict>			
+			</dict>
 			<dict>
 				<key>BundlePath</key>
 				<string>WhateverGreen.kext</string>
@@ -264,16 +276,6 @@
 				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/NoTouchID</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>BundlePath</key>
-				<string>CodecCommander.kext</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/CodecCommander</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -425,7 +427,7 @@
 		</dict>
 	</dict>
 	<key>Misc</key>
-	<dict>		
+	<dict>
 		<key>Boot</key>
 		<dict>
 			<key>HibernateMode</key>
@@ -436,10 +438,10 @@
 			<string></string>
 			<key>ShowPicker</key>
 			<true/>
-			<key>UsePicker</key>
-			<true/>
 			<key>Timeout</key>
 			<integer>0</integer>
+			<key>UsePicker</key>
+			<true/>
 		</dict>
 		<key>Debug</key>
 		<dict>
@@ -468,22 +470,22 @@
 		<key>Tools</key>
 		<array>
 			<dict>
-				<key>Name</key>
-				<string>UEFI Shell</string>
 				<key>Comment</key>
 				<string>Not signed for security reasons</string>
 				<key>Enabled</key>
 				<true/>
+				<key>Name</key>
+				<string>UEFI Shell</string>
 				<key>Path</key>
 				<string>Shell.efi</string>
 			</dict>
 			<dict>
-				<key>Name</key>
-				<string>Clean NVRAM</string>
 				<key>Comment</key>
 				<string>Clean Nvram</string>
 				<key>Enabled</key>
 				<true/>
+				<key>Name</key>
+				<string>Clean NVRAM</string>
 				<key>Path</key>
 				<string>CleanNvram.efi</string>
 			</dict>
@@ -493,6 +495,13 @@
 	<dict>
 		<key>Add</key>
 		<dict>
+			<key>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</key>
+			<dict>
+				<key>UIScale</key>
+				<data>
+				Ag==
+				</data>
+			</dict>
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
@@ -500,12 +509,7 @@
 				<key>csr-active-config</key>
 				<data>
 				AAAAAA==
-				</data>		
-			</dict>
-			<key>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</key>
-			<dict>
-				<key>UIScale</key>
-				<data>Ag==</data>			
+				</data>
 			</dict>
 		</dict>
 	</dict>
@@ -515,11 +519,11 @@
 		<true/>
 		<key>Generic</key>
 		<dict>
+			<key>MLB</key>
+			<string>FillThis</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
-			<string>FillThis</string>
-			<key>MLB</key>
 			<string>FillThis</string>
 			<key>SystemUUID</key>
 			<string>FillThis</string>
