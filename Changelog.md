@@ -2,11 +2,20 @@
 
 ### Sep
 
-#### SSDT and Patch
+#### SSDT
 
-- Add `SSDT-PTSWAK` back and put it in `SSDT-DGPU` file, since both have the same purpose that is to disable discrete GPU.
+- Add `SSDT-PTSWAK` back and put it in `SSDT-DGPU` file, since both have the same purpose that is to disable discrete GPU. 
 
-- Add `_PTS`  and `_WAK` renaming back for `SSDT-PTSWAK` to work
+#### Config
+
+- Add `_PTS`  and `_WAK` renaming back for `SSDT-PTSWAK` to work.
+
+- Force `IOGraphicsFamily` to load to make trackpad work on 10.15 Beta 8(19A558d). See [VoodooI2C/issues/214](https://github.com/alexandred/VoodooI2C/issues/214)
+
+#### Audio
+
+- Remove `CodecCommander` and `SSDT-ALCC`, because `AppleALC` has the same function to send `SET_PIN_WIDGET_CONTROL` command to HDA at wake.
+- Modify `AppleALC`. Change `WakeConfigData` field in `ALC298 with LayoutID 30` config to `AYcHIg==`(represent command `0x18 SET_PIN_WIDGET_CONTROL 0x22`).
 
 #### Others
 
@@ -26,7 +35,7 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
   According to OC configuration, `_OSI to XOSI` patching and `SSDT-XOSI` shoud be avoid, but `SSDT-BRT6` require `OSID` and `_OSI` renaming patch and `SSDT-XOSI`.
 
-  After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` and `ACOS` was initialized based on `_OSI`  and was returned by `OSID` method. If we set `ACOS` to `0x80` (the value that was initialized on Windows 2015) directly in root scope, the initialization process will not be excuted and `OSID`  method is still working properly, in this way,  `OSID` and `_OSI` renaming are not needed.
+  After digging DSDT code, I found that `BRT6` (brightness control) method is called only when `ACOS` is large than `0x20` and `ACOS` was initialized based on `_OSI`  and was returned by `OSID` method. If we set `ACOS` to `0x80` (the value that was initialized on Windows 2015) directly in root scope, the initialization process will not be excuted and `OSID` method is working properly. In this way,  `OSID` and `_OSI` renaming are not needed.
 
 -  `SSDT-DMAC + SSDT-HPET + SSDT-PMCR + SSDT-SBUS` were merged into `SSDT-PIC0`, these SSDTs are not necessary. Source: [08-添加丢失的部件](https://github.com/daliansky/OC-little/tree/master/08-%E6%B7%BB%E5%8A%A0%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%83%A8%E4%BB%B6)
 
@@ -46,7 +55,7 @@ Thanks @daliansky for the hot patch guide, https://github.com/daliansky/OC-littl
 
 - Remove `SSDT-XOSI` and related patches.
 
-- Remove `SSDT-USBX`, because usb-current limitation was defined in `USBPorts.kext`.
+- Remove `SSDT-USBX`, because usb-current limitation is defined in `USBPorts.kext`.
 
 ### Patches
 
@@ -140,8 +149,9 @@ Add `CodecCommander` , `SSDT-ALC298`, `FixHDA` to fix distorted audio after slee
 
 #### Audio
 
-2. Delete `CodecCommander` 
-2. Change layout-id to 30 ([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96))
+- Delete `CodecCommander` 
+
+- Change layout-id to 30 ([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96))
 
 #### Kext
 

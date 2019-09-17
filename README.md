@@ -17,14 +17,14 @@ But note that please create an issue **in my repository** if you encounter any p
 
 ### Important
 
-Please use **Clover Configurator** or other tool to **generate new SerialNumber, BoardSerialNumber(MLB) and SmUUID**, and replace those values in config.plist.
+**Please generate new SerialNumber, BoardSerialNumber(MLB) and SmUUID and update those fields in config.plist.**
 
 ## Issues
 
 ### Fix Sleep Issues
 
 ```shell
-sudo pmset -a hibernatemode 3
+sudo pmset -a hibernatemode 0
 sudo pmset -a autopoweroff 0
 sudo pmset -a standby 0
 sudo pmset -b tcpkeepalive 0 (optional)
