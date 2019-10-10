@@ -1,5 +1,13 @@
 ##  Changelog
 
+### Oct
+
+- Update kexts and drivers to latest
+- Update OpenCore to 0.5.1
+- Remove `IOGraphicsFamily force to load` patch, this bug was fixed
+- Add `FakePCIID` and `FakePCIID_Intel_HDMI_Audio` to prevent audio losting at boot
+- Update `BrcmPatchRAM3` from [here](https://www.insanelymac.com/forum/topic/339175-brcmpatchram2-for-1015-catalina-broadcom-bluetooth-firmware-upload/?do=findComment&comment=2692922)
+
 ### Sep
 
 #### SSDT
@@ -79,16 +87,6 @@ Only keep following four patches, and each patch only change one place (method) 
 
 ### July
 
-#### Kext & Driver
-
-- Update kexts to latest
-- Update drivers to latest
-- Update `Brcm*` kexts from [headkaze/OS-X-BrcmPatchRAM](https://github.com/headkaze/OS-X-BrcmPatchRAM), which works on 10.15
-
-#### Patches
-
-- Add `SSDT-DGPU` back, which is nessary to disable dGPU.
-
 #### Audio
 
 - Remove all audio-related items except layout-id in config.plist
@@ -103,19 +101,16 @@ There are two methods to drive headphone:
 
 #### Others
 
-Update Clover to r4972
+- Update kexts and drivers to latest
+- Update Clover to r4972
+- Update `Brcm*` kexts from [headkaze/OS-X-BrcmPatchRAM](https://github.com/headkaze/OS-X-BrcmPatchRAM), which works on 10.15
+- Add `SSDT-DGPU` back, which is nessary to disable dGPU.
 
 ### Jun
 
 Add `CodecCommander` , `SSDT-ALC298`, `FixHDA` to fix distorted audio after sleep
 
 ### May
-
-#### Kext & Driver
-
-- Update `AirportBrcmFixup`, `CPUFriend`, `Lilu`, `VirtualSMC`, `VoodooI2C` and `VoodooPS2Controller` to latest
-- Update `AppleALC`, which says `Fixed rare random audio init failure on 10.14`, need more test
-- Update drivers to latest
 
 #### Patches
 
@@ -126,48 +121,33 @@ Add `CodecCommander` , `SSDT-ALC298`, `FixHDA` to fix distorted audio after slee
 
 #### Others
 
+- Update kexts and drivers to latest
+
 - Update Clover to r4934
 
-- Clean up config file
 
 ### Mar
-
-#### Kext
 
 - Update kexts
 - Use VoodooI2C from [the-darkvoid/XPS9360-macOS](<https://github.com/the-darkvoid/XPS9360-macOS/tree/master/kexts/VoodooI2C.kext>)
 - Delete Mouse plugin in `VoodooPS2Controller`, which is conflict with MOS app
 - Add `RTCMemoryFixup`
 
-#### Others
-
-- Replace `SSDT-TYPC+SSDT-YTBT` with `SSDT-THBT`
-
 - Update Clover to r4910
 
 ### Feb
-
-#### Audio
 
 - Delete `CodecCommander` 
 
 - Change layout-id to 30 ([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96))
 
-#### Kext
-
-- Update kexts
-
 - Add `NoTouchID` back
 
-#### Clover
-
-Update Clover to r4871
+- Update Clover to r4871
 
 ### Jan
 
 Update `AirportBrcmFixup` to `1.1.9` and add `brcmfx-country=#a` boot arg to fix 5G WiFi speed, thanks @CyJaySong. [issues#12](https://github.com/xxxzc/xps15-9550-macos/issues/12)
-
-#### SSDT
 
 Update `SSDT-RMCF.aml` and `SSDT-PNLF.aml` （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）
 

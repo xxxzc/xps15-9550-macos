@@ -7,6 +7,6 @@ rm -rf ./OC/Kexts
 cp -r ./CLOVER/ACPI/patched ./OC/ACPI
 cp -r ./CLOVER/kexts/Other ./OC/Kexts
 
-rm -rf ../.Trashes
-
 dot_clean .
+
+rm -rf ../.Trashes
