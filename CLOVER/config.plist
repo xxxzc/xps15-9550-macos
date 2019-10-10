@@ -14,7 +14,7 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>Rename method BRT6 to BRTX, pair with SSDT-BCKM.aml</string>
+					<string>Rename BRT6 to BRTX, pair with SSDT-BCKM.aml</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -28,7 +28,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename method GPRW to YPRW, pair with SSDT-GPRW.aml</string>
+					<string>Rename GPRW to YPRW, pair with SSDT-GPRW.aml</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -42,7 +42,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename method _PTS to ZPTS, pair with SSDT-PTSWAK.aml</string>
+					<string>Rename _PTS to ZPTS, pair with SSDT-DGPU.aml</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -56,7 +56,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename method _WAK to ZWAK, pair with SSDT-PTSWAK.aml</string>
+					<string>Rename _WAK to ZWAK, pair with SSDT-DGPU.aml</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -70,7 +70,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Change GPI0._STA to XSTA, pair with SSDT-TPXX.aml</string>
+					<string>Rename GPI0._STA to XSTA, pair with SSDT-TPXX.aml</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -125,11 +125,13 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696</string>
+		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=0</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
 		<string>LastBootedVolume</string>
+		<key>NeverHibernate</key>
+		<true/>
 		<key>Secure</key>
 		<false/>
 		<key>Timeout</key>
@@ -233,10 +235,6 @@
 		<false/>
 		<key>DellSMBIOSPatch</key>
 		<true/>
-		<key>ForceKextsToLoad</key>
-		<array>
-			<string>\System\Library\Extensions\IOGraphicsFamily.kext</string>
-		</array>
 	</dict>
 	<key>RtVariables</key>
 	<dict>

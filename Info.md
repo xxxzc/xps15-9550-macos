@@ -3,18 +3,19 @@
 |                             Kext                             | Version |
 | :----------------------------------------------------------: | ------- |
 | [AirportBrcmFixup](https://github.com/acidanthera/AirportBrcmFixup) | 2.0.3   |
-|     [AppleALC](https://github.com/acidanthera/AppleALC)      | 1.4.1   |
+|     [AppleALC](https://github.com/acidanthera/AppleALC)      | 1.4.2   |
 | [BrcmBluetoothInjector+BrcmFirmwareData+BrcmPatchRAM2](https://github.com/headkaze/OS-X-BrcmPatchRAM/releases) | 2.2.12  |
 | [BT4LEContinuityFixup](https://github.com/acidanthera/BT4LEContinuityFixup) | 1.1.4   |
 | [CPUFriend+CPUFriendDataProvider](https://github.com/acidanthera/CPUFriend) | 1.1.9   |
+| [FakePCIID+FakePCIID_Intel_HDMI_Audio](https://bitbucket.org/RehabMan/os-x-fake-pci-id/downloads/) | 1027    |
 | [Lilu](https://github.com/acidanthera/Lilu/releases/latest)  | 1.3.8   |
 | [NoTouchID](https://github.com/al3xtjames/NoTouchID/releases) | 1.0.2   |
 | [RTCMemoryFixup](https://github.com/acidanthera/RTCMemoryFixup/releases) | 1.0.4   |
-| [VirtualSMC+SMCBatteryManager+SMCProcessor](https://github.com/acidanthera/VirtualSMC) | 1.0.7   |
+| [VirtualSMC+SMCBatteryManager+SMCProcessor](https://github.com/acidanthera/VirtualSMC) | 1.0.8   |
 | [USBPorts](https://www.tonymacx86.com/threads/release-intel-fb-patcher-v1-4-5.254559/) | 2.7.6   |
 | [VoodooI2C+VoodooI2CHID](https://github.com/alexandred/VoodooI2C) | 2.2     |
-| [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2/releases) | 2.0.3   |
-| [WhateverGreen](https://github.com/acidanthera/WhateverGreen) | 1.3.2   |
+| [VoodooPS2Controller](https://github.com/acidanthera/VoodooPS2/releases) | 2.0.4   |
+| [WhateverGreen](https://github.com/acidanthera/WhateverGreen) | 1.3.3   |
 
 #### About USBPorts.kext
 

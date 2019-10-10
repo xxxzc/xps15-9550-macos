@@ -53,7 +53,7 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>Rename method BRT6 to BRTX, pair with SSDT-BCKM.aml</string>
+				<string>Rename BRT6 to BRTX, pair with SSDT-BCKM.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -67,7 +67,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename method GPRW to YPRW, pair with SSDT-GPRW.aml</string>
+				<string>Rename GPRW to YPRW, pair with SSDT-GPRW.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -81,7 +81,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename method _PTS to ZPTS, pair with SSDT-PTSWAK.aml</string>
+				<string>Rename _PTS to ZPTS, pair with SSDT-DGPU.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -95,7 +95,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename method _WAK to ZWAK, pair with SSDT-PTSWAK.aml</string>
+				<string>Rename _WAK to ZWAK, pair with SSDT-DGPU.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -109,7 +109,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Change GPI0._STA to XSTA, pair with SSDT-TPXX.aml</string>
+				<string>Rename GPI0._STA to XSTA, pair with SSDT-TPXX.aml</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -415,9 +415,29 @@
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>FakePCIID.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/FakePCIID</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>FakePCIID_Intel_HDMI_Audio.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
 		</array>
 		<key>Quirks</key>
 		<dict>
+			<key>AppleCpuPmCfgLock</key>
+			<true/>
 			<key>AppleXcpmCfgLock</key>
 			<true/>
 			<key>CustomSMBIOSGuid</key>
@@ -434,8 +454,6 @@
 			<string>None</string>
 			<key>HideSelf</key>
 			<false/>
-			<key>Resolution</key>
-			<string></string>
 			<key>ShowPicker</key>
 			<true/>
 			<key>Timeout</key>
@@ -505,10 +523,10 @@
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
-				<string>brcmfx-country=#a agdpmod=vit9696</string>
+				<string>brcmfx-country=#a agdpmod=vit9696 darkwake=0</string>
 				<key>csr-active-config</key>
 				<data>
-				AAAAAA==
+				ZwAAAAA=
 				</data>
 			</dict>
 		</dict>
