@@ -1,0 +1,20 @@
+Folder,Items,Description,Version,Pattern,Url
+Kexts,AirportBrcmFixup.kext,Broadcom Wi-Fi driver,latest,.*RELEASE,https://github.com/acidanthera/AirportBrcmFixup
+Kexts,AppleALC.kext,Native macOS HD audio,1.4.2,.*RELEASE,https://github.com/acidanthera/AppleALC
+Kexts,BrcmBluetoothInjector.kext+BrcmFirmwareData.kext+BrcmPatchRAM3.kext,Broadcom Bluetooth driver,latest,.*RELEASE,https://github.com/acidanthera/BrcmPatchRAM
+Kexts,CPUFriend.kext,Dynamic CPU power management,latest,.*RELEASE,https://github.com/acidanthera/CPUFriend
+Kexts,FakePCIID.kext+FakePCIID_Intel_HDMI_Audio.kext,Prevent audio losting,latest,.*,https://bitbucket.org/RehabMan/os-x-fake-pci-id
+Kexts,Lilu.kext,Arbitrary kext and process patching,latest,.*RELEASE,https://github.com/acidanthera/Lilu
+Kexts,NoTouchID.kext,Disable TouchID,latest,.*RELEASE,https://github.com/al3xtjames/NoTouchID
+Kexts,VirtualSMC.kext+SMCBatteryManager.kext+SMCProcessor.kext,SMC emulator layer,latest,.*RELEASE,https://github.com/acidanthera/VirtualSMC
+Kexts,VoodooI2C.kext+VoodooI2CHID.kext,I2C controller,latest,^(?!.*Debug),https://github.com/alexandred/VoodooI2C
+Kexts,VoodooPS2Controller.kext,PS/2 controller,latest,.*RELEASE,https://github.com/acidanthera/VoodooPS2
+Kexts,WhateverGreen.kext,Patches for GPUs,latest,.*RELEASE,https://github.com/acidanthera/WhateverGreen
+Drivers,ApfsDriverLoader.efi+FwRuntimeServices.efi+VBoxHfs.efi,UEFI drivers for Apple environment support,latest,.*RELEASE,https://github.com/acidanthera/AppleSupportPkg
+Drivers,AptioMemoryFix.efi,AptioFixPkg drivers to workaround macOS compatibility,latest,.*RELEASE,https://github.com/acidanthera/AptioFixPkg
+Bootloader,CLOVERX64.efi,Bootloader for macOS,latest,CLOVERX64.efi,https://github.com/CloverHackyColor/CloverBootloader
+Bootloader,OpenCore.efi,OpenCore bootloader,latest,.*RELEASE,https://github.com/acidanthera/OpenCorePkg
+Tools,iasl,Compile dsl to aml in macOS,latest,iasl.zip,https://bitbucket.org/RehabMan/acpica
+Tools,iasl.exe,Compile dsl to aml in Windows,2019-10-18,.*,https://acpica.org/sites/acpica/files/iasl-win-20191018.zip
+Tools,macserial,Generate Mac platform information in macOS,latest,.*-mac,https://github.com/acidanthera/MacInfoPkg
+Tools,macserial32.exe,Generate Mac platform information in Windows,latest,.*-win,https://github.com/acidanthera/MacInfoPkg
