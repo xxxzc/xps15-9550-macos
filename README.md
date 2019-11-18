@@ -24,7 +24,7 @@ I don't recommend, but if u want, you can clone this repo and run `python deploy
 
 ### Scripts
 
-Scripts (including `deploy.py`) require python version ≥  3.5, these scripts may work on Windows, but I haven't tested them yet.
+Scripts (including `deploy.py`) require python version ≥  3.5, these scripts may work on Windows, not fully tested yet.
 
 Use `Script/upgrade.py` to replace your current CLOVER/OC with **the latest release** from this repo.
 
@@ -36,7 +36,7 @@ python ./Script/update_package.py ./Kexts # update all the kexts list in package
 python ./Script/update_package.py ./OpenCore.efi # update OpenCore
 ```
 
-Use `Script/update_config.py` to update config (patches, UI scale and especially for OpenCore to get SSDTs, kexts and drivers info), can also used to **generate SN, MLB and SmUUID**.
+Use `Script/update_config.py` to update config (patches, UI scale and especially for OpenCore to get SSDTs, kexts and drivers info), can also generate SN, MLB and SmUUID.
 
 Use `Script/download_theme.py` to download Clover theme from [Clover Theme Repo](https://sourceforge.net/p/cloverefiboot/themes/ci/master/tree/themes/)
 
@@ -49,6 +49,10 @@ python ./Script/download_theme.py ./themes/XXX # XXX is the name of theme, e.g. 
 You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) for the installation guide and solutions to some common issues. 
 
 But note that please create an issue **in this repository** if you encounter any problem when **using this config** (Please don't disturb others). My writing in English is poooooor:(, but I can read :).
+
+### SMBIOS
+
+You should fill SN, MLB and SmUUID filelds in config.plist. You can use `Script/update_config.py` to help you input your own values or to generate new one. ([Hackintool](https://www.tonymacx86.com/threads/release-hackintool-v2-8-6.254559/), [MacInfoPkg](https://github.com/acidanthera/MacInfoPkg) and [Clover Configurator](https://mackie100projects.altervista.org/download-clover-configurator/) can do the same job). SmUUID is just a random sequence, run `uuidgen` in Terminal or use online generate tool  to get one.
 
 ### Sleep
 
