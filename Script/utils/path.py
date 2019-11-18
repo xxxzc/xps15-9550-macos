@@ -1,8 +1,8 @@
 from pathlib import Path
 from sys import argv
 from shutil import rmtree, copy2, copytree, move
-from datetime import datetime
-from os import utime
+from datetime import datetime, date
+from os import utime, stat
 from time import mktime
 import zipfile
 
@@ -118,6 +118,17 @@ def mv(s, d):
     '''
     rm(d)
     move(s, d)
+
+
+def ct(p):
+    '''Get creation time of path
+    '''
+    st = stat(p)
+    try:
+        ctime = st.st_birthtime
+    except AttributeError:
+        ctime = st.st_ctime
+    return date.fromtimestamp(ctime)
 
 
 def st(p, dt: datetime):

@@ -35,15 +35,11 @@ class Package:
             itempath = Path(self.folder, item)
             if itempath.exists():
                 self.local.url = itempath
-                self.local.date = date.fromtimestamp(
-                    stat(itempath).st_birthtime
-                )
+                self.local.date = path.ct(itempath)
 
                 if item.endswith('.kext'):
                     infoplist = Path(itempath, 'Contents', 'Info.plist')
-                    self.local.date = date.fromtimestamp(
-                        stat(infoplist).st_birthtime
-                    )
+                    self.local.date = path.ct(infoplist)
                     with open(infoplist, 'r') as f:
                         for line in f:
                             if 'CFBundleShortVersionString' in line:
@@ -152,7 +148,7 @@ class Package:
     def update(self):
         # wants to print package.name in hook
         def hook(count, block, total):
-            percent = min(int(count * block / total), 1)
+            percent = min(count * block / total, 1)
             width = 25
             length = int(percent * width)
             print("{:<32} {:>8.1f}K [{}{}] {:.0%}".format(self.name, total / 1024,
