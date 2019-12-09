@@ -447,6 +447,7 @@ def replace_with_release(folder, version='latest'):
     if originthemes.exists():
         sh('mv {} {}'.format(originthemes, backupthemes))
 
+    sh('rm -rf {}'.format(folder))
     if update_packages([Package(
             items=folder.name, folder=root,
             url='https://github.com/xxxzc/xps15-9550-macos',
