@@ -14,20 +14,6 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>Rename GPRW to YPRW</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>
-					FEAGR1BSVwI=
-					</data>
-					<key>Replace</key>
-					<data>
-					FEAGWVBSVwI=
-					</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
 					<string>Rename BRT6 to BRTX</string>
 					<key>Disabled</key>
 					<false/>
@@ -38,6 +24,20 @@
 					<key>Replace</key>
 					<data>
 					QlJUWAKg
+					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>Rename GPRW to YPRW</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					FEAGR1BSVwI=
+					</data>
+					<key>Replace</key>
+					<data>
+					FEAGWVBSVwI=
 					</data>
 				</dict>
 				<dict>
@@ -89,7 +89,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=3 -v</string>
+		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -212,13 +212,13 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>FillThis</string>
+		<string>C02625701GUHCF9FB</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>FillThis</string>
+		<string>C02RW0TEGTFN</string>
 		<key>SmUUID</key>
-		<string>FillThis</string>
+		<string>45CE220C-AEEC-4451-B14C-C9EB5816D83E</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
