@@ -61,10 +61,10 @@ python update.py --set $(sh Script/gen_smbios.sh)
 Use `bootarg+xxx` to add/change bootarg, use `bootarg-xxx` to remove a bootarg:
 
 ```sh
-python update.py --set bootarg--v # remove -v
-											 bootarg+darkwake=1 # set darkwake=1
-											 uiscale=1 # for FHD display, default to 2(for UHD)
-											 timeout=-1 # set boot ui timeout
+python update.py --set bootarg--v \ # remove -v
+bootarg+darkwake=1 \ # set darkwake=1
+uiscale=1 \ # for FHD display, default to 2(for UHD)
+timeout=-1 \ # set boot ui timeout
 ```
 
 **THEME**
