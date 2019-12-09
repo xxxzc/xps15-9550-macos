@@ -549,6 +549,24 @@ def update_patches_kexts_drivers(folder: Path):
         if Path(kext, 'Contents', 'MacOS', kext.name[:-5]).exists():
             kextinfo['ExecutablePath'] = '/'.join((
                 'Contents', 'MacOS', kext.name[:-5]))
+        # correct the order of kexts
+        priority = 100
+        if kext.name == 'Lilu.kext':
+            priority = 0
+        elif kext.name == 'VirtualSMC.kext':
+            priority = 10
+        elif kext.name == 'AppleALC.kext':
+            priority = 20
+        elif 'VoodooI2C' in kextinfo['BundlePath']:
+            priority = 30
+            if kextinfo['BundlePath'] == 'VoodooI2C.kext':
+                priority = 40
+            elif kextinfo['BundlePath'] == 'VoodooI2CHID.kext':
+                priority = 50
+        kexts.append((priority, kextinfo))
+    
+    config.plist['Kernel']['Add'] = [x[1] for x in sorted(
+            kexts, key=lambda x: x[0])]
     print('Kexts info updated')
 
     config.plist['UEFI']['Drivers'] = [
