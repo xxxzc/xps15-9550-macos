@@ -14,34 +14,64 @@
 
 ## Installation
 
+> update.py requires python version >= 3.5
+
 ### Release
 
 The simplest and most stable way is just using [the latest release](https://github.com/xxxzc/xps15-9550-macos/releases/latest).
 
-### Build
+Or use `python update.py --release`：
 
-I don't recommend, but if u want, you can clone this repo and run `python deploy.py path`. `path` should be a folder with name CLOVER, OC or OpenCore (case insensitive).
-
-### Scripts
-
-Scripts (including `deploy.py`) require python version ≥  3.5, these scripts may work on Windows, not fully tested yet.
-
-Use `Script/upgrade.py` to replace your current CLOVER/OC with **the latest release** from this repo.
-
-Use `Script/update_package.py` to download and update kexts and drivers.
-
-```sh
-python ./Script/update_package.py # update all the packages list in packages.csv
-python ./Script/update_package.py ./Kexts # update all the kexts list in packages.csv
-python ./Script/update_package.py ./OpenCore.efi # update OpenCore
+```shell
+python update.py --release # get latest CLOVER and OC
+python update.py CLOVER --release # get latest CLOVER only
+python update.py --release 1911 # get version 1911
 ```
 
-Use `Script/update_config.py` to update config (patches, UI scale and especially for OpenCore to get SSDTs, kexts and drivers info), can also generate SN, MLB and SmUUID.
+### Update
 
-Use `Script/download_theme.py` to download Clover theme from [Clover Theme Repo](https://sourceforge.net/p/cloverefiboot/themes/ci/master/tree/themes/)
+You can use `update.py` to update kexts, drivers and bootloader that are list in package.csv.
 
 ```sh
-python ./Script/download_theme.py ./themes/XXX # XXX is the name of theme, e.g. Nightwish
+python update.py CLOVER/CLOVERX64.efi # update CLOVER bootloader
+python update.py OC/Kexts/Lilu.kext # update this kext
+python update.py CLOVER # update kexts, drivers and bootloader
+```
+
+Run `python update.py --self` to get the latest files from this repo.
+
+### Customize
+
+You can run `python update.py --set k1=v1 k2=v2...` to customize your config.plist.
+
+**SMBIOS**
+
+```sh
+python update.py --set sn=xxx mlb=yyy smuuid=zzz
+```
+
+Run `sh ./Script/gen_smbios.sh` to generate one and set to config.plist：
+
+```sh
+python update.py --set $(sh Script/gen_smbios.sh)
+```
+
+**BOOT**
+
+Use `bootarg+xxx` to add/change bootarg, use `bootarg-xxx` to remove a bootarg:
+
+```sh
+python update.py --set bootarg--v # remove -v
+											 bootarg+darkwake=1 # set darkwake=1
+											 uiscale=1 # for FHD display, default to 2(for UHD)
+											 timeout=-1 # set boot ui timeout
+```
+
+**THEME**
+
+```shell
+python update.py CLOVER/themes/xxx # download theme xxx (need git)
+python update.py CLOVER --set theme=xxx # set theme to xxx
 ```
 
 ## Issues
@@ -50,11 +80,7 @@ You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-
 
 But note that please create an issue **in this repository** if you encounter any problem when **using this config** (Please don't disturb others). My writing in English is poooooor:(, but I can read :).
 
-### SMBIOS
-
-You should fill SN, MLB and SmUUID filelds in config.plist. You can use `Script/update_config.py` to help you input your own values or to generate new one. ([Hackintool](https://www.tonymacx86.com/threads/release-hackintool-v2-8-6.254559/), [MacInfoPkg](https://github.com/acidanthera/MacInfoPkg) and [Clover Configurator](https://mackie100projects.altervista.org/download-clover-configurator/) can do the same job). SmUUID is just a random sequence, run `uuidgen` in Terminal or use online generate tool  to get one.
-
-### Sleep
+### Sleep Wake
 
 ```shell
 sudo pmset -a hibernatemode 0
@@ -72,17 +98,14 @@ Please uncheck all options (except `Prevent computer from sleeping...`, which is
 
 @qeeqez found layout-id 30 is good to drive headphone without PluginFix([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96)), and it also works for me. If not, you have to install [ALCPlugFix](https://github.com/daliansky/XiaoMi-Pro-Hackintosh/tree/master/ALCPlugFix).
 
-### Non-Retina Display
-
-**Font Rendering**
+### FHD Display
 
 ```shell
+# Font Rendering
 defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+# Boot UI Scaling
+python update.py --set uiscale=1
 ```
-
-**Boot UI Scaling**
-
-Open `config.plist` and set  `UIScale` to `1`.
 
 ### NTFS Writing
 

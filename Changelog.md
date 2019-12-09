@@ -2,6 +2,20 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
+## [1912](https://github.com/xxxzc/xps15-9550-macos/releases/tag/1912)
+
+- Correct the order of kexts in OpenCore config.plist [issues#36](https://github.com/xxxzc/xps15-9550-macos/issues/36)
+
+- Set `darkwake=1` to lights up the screen automatically without extra key pressing [issues#39](https://github.com/xxxzc/xps15-9550-macos/issues/39):
+
+  ```
+  kDarkWakeFlagHIDTickleEarly      = 0x01, // hid tickle before gfx suppression
+  kDarkWakeFlagHIDTickleLate       = 0x02, // hid tickle after gfx suppression
+  kDarkWakeFlagHIDTickleNone       = 0x03, // hid tickle is not posted
+  ```
+
+- Merge python scripts, add some shell command, drop the support of Windows
+
 ## [1911](https://github.com/xxxzc/xps15-9550-macos/releases/tag/1911)
 
 - Use AppleALC 1.4.2 rather than 1.4.3 because the later will cause audio distorted after few minutes on battery mode
