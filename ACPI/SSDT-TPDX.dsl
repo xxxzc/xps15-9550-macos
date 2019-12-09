@@ -1,4 +1,4 @@
-// Add TPXX device as touchpad to replace TPD1
+// Add TPDX device as touchpad to replace TPD1
 // References:
 // [1] https://github.com/xxxzc/xps15-9550-macos/issues/26#issuecomment-546838295
 // [2] https://github.com/daliansky/OC-little/tree/master/09-OCI2C-TPXX%E8%A1%A5%E4%B8%81%E6%96%B9%E6%B3%95
@@ -18,7 +18,6 @@ DefinitionBlock ("", "SSDT", 2, "hack", "TPDX", 0x00000000)
     External (_SB_.SHPO, MethodObj)    // 2 Arguments
     External (GPDI, FieldUnitObj)
     External (GPEN, FieldUnitObj)
-    External (OSYS, FieldUnitObj)
     External (SBRG, FieldUnitObj)
     External (SDM1, FieldUnitObj)
     External (SDS0, FieldUnitObj)
