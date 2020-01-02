@@ -419,25 +419,6 @@ def update_packages(packages):
     return packages
 
 
-def patching(packages):
-    '''
-    Patch AppleALC for XPS15-9550 and
-    Delete VoodooPS2Mouse.kext and VoodooPS2Trackpad.kext
-    '''
-    for package in packages:
-        if 'AppleALC.kext' in package.items:  # XPS15 only
-            plist = Plist(Path(package.folder, 'AppleALC.kext',
-                               'Contents', 'Info.plist'))
-            plist.plist['IOKitPersonalities']['HDA Hardware Config Resource']['HDAConfigDefault'] = [
-                dict(AFGLowPowerState=Plist.data('AwAAAA=='),
-                     Codec='Constanta - Realtek ALC298 for Xiaomi Mi Notebook Air 13.3 Fingerprint 2018',
-                     CodecID=283902616, FuncGroup=1, LayoutID=30, WakeVerbReinit=True,
-                     ConfigData=Plist.data(
-                         'ASccMAEnHQABJx6gAScfkAF3HEABdx0AAXceFwF3H5ABdwwCAYcccAGHHRABhx6BAYcfAAIXHCACFx0QAhceIQIXHwA='),
-                     WakeConfigData=Plist.data('AYcHIg=='))
-            ]
-            plist.save()
-            Title('AppleALC.kext is patched')
 
         if package.items[0] == 'VoodooPS2Controller.kext':
             for kext in ('VoodooPS2Mouse.kext', 'VoodooPS2Trackpad.kext'):
