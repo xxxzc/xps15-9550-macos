@@ -36,6 +36,12 @@ parser.add_argument('--config', metavar='path/to/config.plist',
                     help='update config from another config')
 parser.add_argument('--set', nargs='*', metavar='k=v',
                     help='update config.plist with `k=v` pairs')
+parser.add_argument('--zip', default=False, action='store_true',
+                    help='zip folders')
+parser.add_argument('--fixsleep', default=False, action='store_true',
+                    help='fix sleep issue')
+parser.add_argument('--gen', default=False, action='store_true',
+                    help='generate SN, MLB and SmUUID')
 parser.add_argument('--self', default=False, action='store_true',
     help='update from https://github.com/xxxzc/xps15-9550-macos/archive/master.zip')
 
@@ -66,6 +72,12 @@ if oc.name == path.name or oc in path.parents:
     if not oc.exists() and not args.release:
         print('Please run `python update.py OC --release` to get OpenCore configuration.')
         exit(1)
+if args.fixsleep:
+    sh('sudo pmset -a hibernatemode 0')
+    sh('sudo pmset -a autopoweroff 0')
+    sh('sudo pmset -a standby 0')
+    sh('sudo pmset -a proximitywake 0')
+    Done()
 
 
 mappers = dict(CLOVER={
@@ -584,6 +596,32 @@ if __name__ == '__main__':
         sh('curl -LOk https://bitbucket.org/RehabMan/acpica/downloads/iasl.zip')
         sh('unzip iasl.zip iasl -d {} && rm iasl.zip'.format(iasl.parent))
         sh('chmod a+x {}'.format(iasl))
+    if args.zip:
+        sh('rm -rf {}/*.aml'.format(R('ACPI')))
+        for folder in folders:
+            set_config(folder / 'config.plist',
+                       'sn=C02WVDY3KGYG mlb=C028248024NJP4FA8 smuuid=C167D3A2-CC13-4041-8CED-553D772C0749 bootarg+-v'.split(' '))
+            sh('cd {} && zip -r XPS15-9550-{}-$(date +%y%m).zip {} README.md update.py packages.csv'.format(
+                root, folder.name, folder.name))
+        Done()
+
+    if args.gen:
+        macserial = R('macserial')
+        if not macserial.exists():
+            update_packages([
+                Package(
+                    name='macserial', folder=root,
+                    description='', version='latest',
+                    pattern='.*-mac', url='https://github.com/acidanthera/MacInfoPkg'
+                )
+            ])
+        sn, s, mlb = shout(
+            '{} -m MacBookPro13,3 -g -n 1'.format(macserial)).split(' ')
+        uuid = shout('uuidgen')
+        for folder in folders:
+            set_config(folder / 'config.plist',
+                       'sn={} mlb={} smuuid={}'.format(sn, mlb, uuid).split(' '))
+        Done()
 
     if args.self:
         sh('curl -LOk https://github.com/xxxzc/xps15-9550-macos/archive/master.zip')
