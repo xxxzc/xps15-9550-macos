@@ -495,93 +495,113 @@ def compile_ssdts(folder: Path):
         sh('{} -oa {}'.format(iasl, dsl))
     return dsls
 
-def update_patches_kexts_drivers(folder: Path):
-    '''Updating patches, kexts and drivers info
-    in config.plist
-    '''
-    def get_patches(dsl_folder):
+def update_acpi(ACPI: Path, folders):
+    def compile_ssdts(folder: Path):
+        # compile if .aml not exist
+        ssdts = []
+        for dsl in folder.rglob('SSDT-*.dsl'):
+            aml = Path(dsl.parent, dsl.name.replace('.dsl', '.aml'))
+            if not aml.exists() or get_timestamp(dsl, 'm') > get_timestamp(aml, 'm'):
+                ssdts.append((dsl, aml))
+        iasl = folder / 'iasl'
+        if not iasl.exists():
+            Title('Downloading iasl...')
+            sh('curl -# -R -LOk https://bitbucket.org/RehabMan/acpica/downloads/iasl.zip')
+            sh('unzip iasl.zip iasl -d {} && rm iasl.zip'.format(iasl.parent))
+            sh('chmod a+x {}'.format(iasl))
+        for (dsl, aml) in ssdts:
+            sh('{} -oa {}'.format(iasl, dsl))
+        return ssdts
+
+    def get_patches(ACPI: Path):
         '''Get patches from dsl files
         // Patch: xxx
         // Find: ABC
         // Replace: DEF
         '''
         patches = []
-        results = shout(
-            "awk -F : '/^\\/\\/ (Patch|Find|Replace)/{print $1,$2}' OFS='\t' " + str(dsl_folder) + "/*.dsl").split('\n')
-        for i in range(0, len(results), 3):
-            patch = {}
-            for j in range(3):
-                k, v = results[i + j].split('\t')
-                k, v = k[3:].strip(), v.strip()
-                if j == 0:
-                    patch['Comment'] = v
-                else:
-                    patch[k] = Plist.data(v)
-            patches.append(patch)
+        for dsl in Path(ACPI).rglob('SSDT-*.dsl'):
+            with open(dsl, 'r') as f:
+                while True:
+                    line = f.readline()
+                    if line.startswith('// Patch:'):
+                        patches.append(
+                            {
+                                'Comment': line[9:].strip(),
+                                'Find': Plist.data(f.readline()[8:].strip()),
+                                'Replace': Plist.data(f.readline()[11:].strip())
+                            }
+                        )
+                    elif not line:
+                        break
         return patches
 
-    config = Plist(folder.joinpath('config.plist'))
+    patches = sorted(get_patches(ACPI), key=lambda x: x['Comment'])
 
-    '''
-    Update patches
-    '''
-    isclover = config.type == 'clover'
-    acpi = folder.joinpath(mappers[folder.name].get('ACPI', 'ACPI'))
-    if not acpi.exists() or len(list(acpi.iterdir())) < 4:
+    Title('Updating SSDTs')
+    if ACPI == root:  # do a full update
+        sh('rm -rf {}/*.aml'.format(ACPI))
+    ssdts = compile_ssdts(ACPI)  # [(dsl, aml), ...]
+    for folder in folders:
+        if not folder.exists():
+            continue
+        patches = get_patches(ACPI)
+        acpi = folder / mappers[folder.name].get('ACPI', 'ACPI')
+        sh('rm -rf {}'.format(acpi))
         acpi.mkdir(exist_ok=True, parents=True)
-        sh('cp -r {}/* {}'.format(R('ACPI'), acpi))
-    patches = get_patches(acpi)
-    if isclover:  # clover
-        for patch in patches:
-            patch['Disabled'] = False
-        config.plist['ACPI']['DSDT']['Patches'] = patches
-    else:
-        for patch in patches:
-            patch['Enabled'] = True
-        config.plist['ACPI']['Patch'] = patches
+        sh('cp -p {}/SSDT-*.aml {}'.format(ACPI, acpi))
+        config = Plist(folder / 'config.plist')
+        if folder == CLOVER:
+            for patch in patches:
+                patch['Disabled'] = False
+            config.plist['ACPI']['DSDT']['Patches'] = patches
+        else:
+            for patch in patches:
+                patch['Enabled'] = True
+            config.plist['ACPI']['Patch'] = patches
+            config.plist['ACPI']['Add'] = [{'Enabled': True, 'Path': aml.name}
+                                           for aml in sorted((folder / 'ACPI').glob('SSDT-*.aml'))]
+        config.save()
+        print(folder, 'patches updated')
 
-    print('Patches updated')
 
-    if folder.name == 'CLOVER':
-        return
+def update_oc_info(folder: Path):
+    '''Updating patches, kexts and drivers info for OpenCore
+    '''
 
-    config.plist['ACPI']['Add'] = [dict(Enabled=True, Path=aml.name)
-        for aml in folder.joinpath('ACPI').glob('*.aml')]
+    config = Plist(folder / 'config.plist')
+
+    config.plist['ACPI']['Add'] = [{'Enabled': True, 'Path': aml.name}
+                                   for aml in sorted((folder / 'ACPI').glob('SSDT-*.aml'))]
 
     kexts = []
-    kextpath = folder.joinpath('Kexts')
-    for kext in kextpath.rglob('*.kext'):
+    kextpath = folder / 'Kexts'
+    prioritys = {
+        'Lilu.kext': 0, 'VirtualSMC.kext': 10, 'AppleALC.kext': 20,
+        'VoodooGPIO.kext': 30, 'VoodooI2CServices.kext': 35,
+        'VoodooI2C.kext': 40, 'VoodooI2CHID.kext': 50,
+        'CPUFriend.kext': 21, 'CPUFriendDataProvider.kext': 22,
+    }
+    for kext in sorted(kextpath.rglob('*.kext')):
+        if kext.name[0] == '.':
+            continue
         kextinfo = {
             'Enabled': True,
             'BundlePath': kext.relative_to(kextpath).as_posix(),
             'PlistPath': 'Contents/Info.plist'
         }
-        if Path(kext, 'Contents', 'MacOS', kext.name[:-5]).exists():
-            kextinfo['ExecutablePath'] = '/'.join((
-                'Contents', 'MacOS', kext.name[:-5]))
-        # correct the order of kexts
-        priority = 100
-        if kext.name == 'Lilu.kext':
-            priority = 0
-        elif kext.name == 'VirtualSMC.kext':
-            priority = 10
-        elif kext.name == 'AppleALC.kext':
-            priority = 20
-        elif 'VoodooI2C' in kextinfo['BundlePath']:
-            priority = 30
-            if kextinfo['BundlePath'] == 'VoodooI2C.kext':
-                priority = 40
-            elif kextinfo['BundlePath'] == 'VoodooI2CHID.kext':
-                priority = 50
-        kexts.append((priority, kextinfo))
-    
+        executable = '/'.join(('Contents', 'MacOS', kext.name[:-5]))
+        if Path(kext, executable).exists():
+            kextinfo['ExecutablePath'] = executable
+        kexts.append((prioritys.get(kext.name, 100), kextinfo))
+
     config.plist['Kernel']['Add'] = [x[1] for x in sorted(
-            kexts, key=lambda x: x[0])]
+        kexts, key=lambda x: x[0])]
     print('Kexts info updated')
 
-    config.plist['UEFI']['Drivers'] = [
-        driver.name for driver in folder.joinpath('Drivers').glob('*.efi')
-    ]
+    config.plist['UEFI']['Drivers'] = sorted([
+        driver.name for driver in (folder / 'Drivers').glob('*.efi')
+    ])
     print('Drivers info updated')
 
     config.save()
