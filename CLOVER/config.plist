@@ -14,20 +14,6 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>Rename BRT6 to BRTX</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>
-					QlJUNgKg
-					</data>
-					<key>Replace</key>
-					<data>
-					QlJUWAKg
-					</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
 					<string>Rename GPRW to YPRW</string>
 					<key>Disabled</key>
 					<false/>
@@ -42,16 +28,16 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename ECDV to EC</string>
+					<string>Rename BRT6 to BRTX</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
 					<data>
-					RUNEVg==
+					QlJUNgKg
 					</data>
 					<key>Replace</key>
 					<data>
-					RUNfXw==
+					QlJUWAKg
 					</data>
 				</dict>
 				<dict>
@@ -89,7 +75,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1</string>
+		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 -v</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -101,7 +87,7 @@
 		<key>Timeout</key>
 		<integer>-1</integer>
 		<key>XMPDetection</key>
-		<false/>
+		<true/>
 	</dict>
 	<key>BootGraphics</key>
 	<dict>
@@ -128,10 +114,12 @@
 		<dict>
 			<key>PciRoot(0x0)/Pci(0x1f,0x3)</key>
 			<dict>
-				<key>layout-id</key>
+				<key>device-id</key>
 				<data>
-				HgAAAA==
+				cKEAAA==
 				</data>
+				<key>layout-id</key>
+				<integer>72</integer>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x2,0x0)</key>
 			<dict>
@@ -159,6 +147,10 @@
 		</dict>
 		<key>USB</key>
 		<dict>
+			<key>FixOwnership</key>
+			<true/>
+			<key>HighCurrent</key>
+			<false/>
 			<key>Inject</key>
 			<false/>
 		</dict>
@@ -169,7 +161,6 @@
 		<array>
 			<string>Recovery</string>
 			<string>Preboot</string>
-			<string>preboot</string>
 		</array>
 		<key>Language</key>
 		<string>en:0</string>
@@ -212,11 +203,11 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>C02742306QXHCF9JC</string>
+		<string>C028248024NJP4FA8</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>C02VK0ZLGTFN</string>
+		<string>C02WVDY3KGYG</string>
 		<key>SmUUID</key>
 		<string>C167D3A2-CC13-4041-8CED-553D772C0749</string>
 	</dict>
