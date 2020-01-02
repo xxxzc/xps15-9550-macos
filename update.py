@@ -204,7 +204,9 @@ class Plist:
                 print('Set {} to {}'.format(k1, value))
                 i1[k1] = value
 
-remote_infos = dict() # cache remote info
+# cache remote info - { url+pattern+version: (rurl, rver, rdat) }
+remote_infos = dict()
+
 
 class Package:
     # access only, 5000/hr
@@ -212,36 +214,41 @@ class Package:
 
     def __init__(self, **kargs):
         self.__dict__.update(kargs)
-        if type(self.items) is str:
-            self.items = self.items.split('+')
-        self.name = self.items[0] if len(
-            self.items) == 1 else self.url.split('/')[-1]
         self.changelog = ''
+
+    @property
+    def lurl(self):
+        return Path(self.folder, self.name)
 
     def check_update(self):
         # get local info
-        lurl, lver, ldat = None, '', None
-        if all(Path(self.folder, i).exists() for i in self.items):
-            lurl = Path(self.folder, self.items[0])
-            ldat = date.fromtimestamp(get_timestamp(lurl))
+        lurl, lver, ldat = self.lurl, 'NotInstalled', None
+        if lurl.exists():
+            ldat = datetime.fromtimestamp(
+                get_timestamp(lurl, 'B'))  # B -- birthdate
+            lver = ldat.strftime('%y%m%d')
             if lurl.name.endswith('.kext'):
-                lver = shout(
-                    "grep -A1 -m 2 'CFBundleShortVersionString' " + str(Path(lurl, 'Contents', 'Info.plist')) + " | awk -F '[<,>]' 'NR>1{print $3}'")
+                lver += '(' + shout("grep -A1 -m 2 'CFBundleShortVersionString' " + str(Path(
+                    lurl, 'Contents', 'Info.plist')) + " | awk -F '[<,>]' 'NR>1{print $3}'") + ')'
+
         self.__dict__.update(dict(lver=lver, ldat=ldat))
 
         # get remote info
         rurl, rver, rdat = self.url, self.version, date.today()
 
-        if self.items[0] in remote_infos:
-            rurl, rver, rdat = remote_infos[self.items[0]]
-        elif 'github' in self.url or 'bitbucket' in self.url:
+        if lver.split('(')[-1].startswith(rver):
+            return False
+
+        _info = self.url+self.version+self.pattern
+        if _info in remote_infos:
+            rurl, rver, rdat = remote_infos[_info]
+        elif 'github' in rurl or 'bitbucket' in rurl:
             domain, user, repo = rurl.split('/')[-3:]
             isgithub = 'github' in domain
             if isgithub:
                 req = Request('https://api.github.com/repos/{}/{}/releases/{}'.format(
                     user, repo, 'tags/' + rver if rver != 'latest' else rver),
-                    headers={'Authorization': 'token {}'.format(
-                        b64decode(self.GITHUB_TOKEN).decode('utf8'))})
+                    headers={'Authorization': 'token {}'.format(b64decode(self.GITHUB_TOKEN).decode('utf8'))})
             else:
                 req = 'https://api.bitbucket.org/2.0/repositories/{}/{}/downloads'.format(
                     user, repo)
@@ -251,50 +258,42 @@ class Package:
                     if isgithub:
                         rurl = asset['browser_download_url']
                         rver = info['tag_name']
-                        rdat = date.fromisoformat(info['published_at'][:10])
+                        rdat = asset['updated_at']
                         self.changelog = info['body']
                     else:
-                        adat = asset['created_on'][:10]
-                        if rver in ('latest', adat):
+                        rdat = asset['created_on']
+                        if rver in ('latest', rdat[:10]):
                             rurl = asset['links']['self']['href']
-                            rdat = date.fromisoformat(adat)
                     break
+
+            rdat = datetime.fromisoformat(rdat[:19])
+            rver = rdat.strftime('%y%m%d') + '(' + rver + ')'
+
         self.__dict__.update(dict(rurl=rurl, rver=rver, rdat=rdat))
+        remote_infos[_info] = (rurl, rver, rdat)
 
-        remote_infos[self.items[0]] = (rurl, rver, rdat)
-
-        if not ldat:
+        if not ldat:  # not exist
             return True
-        return lver != rver and abs((rdat - ldat).days) > 1
+        if lver.split('(')[-1] == rver.split('(')[-1]:
+            return False
+        return abs((rdat - ldat).days) > 1
 
-    def update(self):
-        def hook(count, block, total):
-            percent, width = min(count * block / total, 1), 25
-            length = int(percent * width)
-            print("{:<32} {:>8.1f}K [{}{}] {:.0%}".format(
-                self.name, total / 1024, '#' * length, ' ' *
-                (width - length), percent), end='\r' if percent < 1 else '\n')
-
-        tmpfile = self.rurl.split('/')[-1]  # with ext
-        filename = tmpfile.split('.')[0]
-        tmpfolder = tmp.joinpath(filename)
-        tmpfolder.mkdir(exist_ok=True)
-        tmpfile = tmpfolder.joinpath(tmpfile)
+    def update(self, tmp=Path(__file__).parent.joinpath('tmp')):
+        tmpfile = tmp / self.rurl.split('/')[-1]
+        tmpfolder = Path(tmp, tmpfile.name.split('.')[0])
         if not tmpfile.exists():
-            tmpfile, message = urlretrieve(
-                self.rurl, tmpfile, reporthook=hook
-            )
+            print('Downloading', self.lurl, 'from', self.rurl)
+            sh('curl -# -R -Lk {} -o {}'.format(self.rurl, tmpfile))
             if self.rurl.endswith('.zip'):
                 sh('unzip -qq -o {} -d {}'.format(tmpfile, tmpfolder))
-
+            else:
+                tmpfolder.mkdir(exist_ok=True)
+                sh('cp -p {} {}'.format(tmpfile, tmpfolder))
         self.folder.mkdir(exist_ok=True, parents=True)
-        for item in self.items:
-            itempath = self.folder.joinpath(item)
-            sh('rm -rf {}'.format(itempath))
-            sh(' '.join((
-                'find', str(tmpfolder), '-name', item, '-type', 'd' if item.endswith('.kext') or item in ('OC', 'CLOVER') else 'f',
-                "| xargs -I '{}'",
-                'cp -r {}', str(self.folder))))
+        sh('rm -rf {}'.format(self.lurl))
+        for r in tmpfolder.rglob(self.name):
+            sh('cp -pr {} {}'.format(r, self.folder))
+
 
 
 def set_config(configfile: Path, kvs: list):
@@ -377,8 +376,7 @@ def update_packages(packages):
     Title('Checking updates...')
     updates = []
     for i, package in enumerate(packages, 1):
-        print('({}/{}) {:<46}'.format(
-            i, len(packages), package.name), end='\r')
+        print('({}/{}) {:<46}'.format(i, len(packages), package.name), end='\r')
         if package.check_update():
             updates.append(package)
     packages = updates
@@ -388,36 +386,36 @@ def update_packages(packages):
     '''
     Show updates
     '''
-    def ver_dat(ver, dat):
-        if not dat:
-            return 'NotInstalled'
-        v = str(dat).replace('-', '')
-        if ver not in ('', 'latest'):
-            v += '({})'.format(ver)
-        return v
-
     Title(len(packages), 'packages to update')
     for i, p in enumerate(packages, 1):
         print('[{}] {:<46} {} -> {}'.format(
             c(i, 172), '/'.join((c(p.folder, 39), p.name)),
-            c(ver_dat(p.lver, p.ldat), 204), c(ver_dat(p.rver, p.rdat), 70)))
+            c(p.lver, 204), c(p.rver, 70)))
         print(c(p.rurl, 245))
         print(c(p.changelog.strip(), 245))
 
+    def get_choices(choice: str) -> set:
+        choices = set()
+        for c in choice.split(' '):
+            if not c:
+                continue
+            c = c.split('-') * 2  # fallback
+            choices.update(range(int(c[0]), int(c[1]) + 1))
+        return choices
+
     if not args.force:
-        notupdate = Prompt(
-            'Enter package(s) number you don\'t want to update (e.g. 1 3 4-7):')
-        notupdate = get_choices(notupdate)
-        packages = [p for i, p in enumerate(
-            packages, 1) if i not in notupdate]
+        choices = get_choices(
+            Prompt('Enter package(s) number you don\'t want to update (e.g. 1 3 4-7):'))
+        if choices:
+            packages = [p for i, p in enumerate(packages, 1)
+                        if i not in choices]
 
     if not packages:
         print('Nothing to do')
         return []
-
     Title('Updating...')
     [p.update() for p in packages]
-    print()
+
     return packages
 
 
@@ -448,11 +446,10 @@ def patching(packages):
             Title('VoodooPS2Mouse.kext and VoodooPS2Trackpad.kext are deleted')
 
 
-def replace_with_release(folder, version='latest'):
     # backup your config
-    originconfig = folder.joinpath('config.plist')
+    originconfig = folder / 'config.plist'
     backupconfig = R(folder.name + '.plist')
-    originthemes = folder.joinpath('themes')
+    originthemes = folder / 'themes'
     backupthemes = R('themes')
     if originconfig.exists():
         sh('mv {} {}'.format(originconfig, backupconfig))
@@ -461,7 +458,7 @@ def replace_with_release(folder, version='latest'):
 
     sh('rm -rf {}'.format(folder))
     if update_packages([Package(
-            items=folder.name, folder=root,
+            name=folder.name, folder=root,
             url='https://github.com/xxxzc/xps15-9550-macos',
             description=folder.name + ' Configuration for XPS15-9550',
             version=version, pattern='.*-' + folder.name)]):
@@ -590,12 +587,19 @@ def update_patches_kexts_drivers(folder: Path):
     config.save()
     return
 
+
 if __name__ == '__main__':
-    if not iasl.exists():
-        Title('Downloading iasl...')
-        sh('curl -LOk https://bitbucket.org/RehabMan/acpica/downloads/iasl.zip')
-        sh('unzip iasl.zip iasl -d {} && rm iasl.zip'.format(iasl.parent))
-        sh('chmod a+x {}'.format(iasl))
+    path = Path(args.p).absolute()
+
+    CLOVER, OC = R('CLOVER'), R('OC')
+    folders = []
+    if path == root:
+        folders = [folder for folder in (CLOVER, OC) if folder.exists()]
+    elif path == CLOVER or CLOVER in path.parents:
+        folders = [CLOVER]
+    elif path == OC or OC in path.parents:
+        folders = [OC]
+
     if args.zip:
         sh('rm -rf {}/*.aml'.format(R('ACPI')))
         for folder in folders:
@@ -623,94 +627,104 @@ if __name__ == '__main__':
                        'sn={} mlb={} smuuid={}'.format(sn, mlb, uuid).split(' '))
         Done()
 
+    '''
+    update ACPI, packages.csv and update.py from repo
+    '''
     if args.self:
-        sh('curl -LOk https://github.com/xxxzc/xps15-9550-macos/archive/master.zip')
-        sh('unzip {}'.format(R('master.zip')))
+        sh('curl -# -LOk https://github.com/xxxzc/xps15-9550-macos/archive/master.zip')
+        sh('unzip {} -d {}'.format('master.zip', root))
         master = R('xps15-9550-macos-master')
         for folder in folders:
-            config = folder.joinpath('config.plist')
+            config = folder / 'config.plist'
             if config.exists():
-                masterconfig = Plist(master.joinpath(folder.name, 'config.plist'))
-                config = Plist(config)
-                config.copy(masterconfig)
-                config.save()
-                sh('rm -rf {}'.format(masterconfig.file))
-        sh('cp -r {}/* {}'.format(master, root))
-        sh('rm -rf {}'.format(R('master.zip')))
-        sh('rm -rf {}'.format(master))
+                masterconfig = Plist(master / folder.name / 'config.plist')
+                Plist(config).copy(masterconfig)
+                masterconfig.save()
+            else:
+                sh('rm -rf {}'.format(master / folder.name))
+        sh('cp -pr {}/* {}'.format(master, root))
+        update_acpi(R('ACPI'), folders)
+        if R('OC').exists():
+            update_oc_info(R('OC'))
+        sh('rm -rf {} {}'.format('master.zip', master))
         Done()
 
-    isplist = path.name.endswith('.plist')
-    if args.set: # set config
-        if isplist:
+    if args.acpi:
+        acpi = R('ACPI')
+        update_acpi(acpi, (CLOVER, OC))
+        Done()
+
+    '''
+    Set config.plist
+    '''
+    if args.set:  # set config
+        if path.name.endswith('.plist'):
             set_config(path, args.set)
         else:
             for folder in folders:
-                set_config(folder.joinpath('config.plist'), args.set)
+                set_config(folder / 'config.plist', args.set)
         Done()
 
-    if args.config: # copy config from src to dst
-        if not isplist:
-            Done('First argument should be a plist file')
-        src = Plist(args.p)
-        src.copy(Plist(args.config))
-        src.save()
-        Done()
+    '''
+    Replace current configuration with release
+    '''
+    # if args.release:
+    #     for folder in folders:
+    #         replace_with_release(folder, args.release)
+    #     Done()
 
-    if args.release:
-        for folder in folders:
-            replace_with_release(folder, args.release)
-        Done()
-
+    '''
+    Update themes
+    '''
     if path.name == 'themes':
         update_themes(path)
         Done()
     elif path.parent.name == 'themes':
         download_theme(path)
         Done()
-    elif clover in folders:
-        update_themes(clover.joinpath('themes'))
+    elif path.name == 'CLOVER' or (path == root and CLOVER.exists()):
+        update_themes(CLOVER / 'themes')
 
-    lowerpath = str(path).lower()
-    packages = []
-    
+    '''
+    Update packages
+    '''
+    keyword = ''
+    if path.name in ('Kexts', 'kexts', 'Other'):
+        keyword = 'kext'
+    elif path.name in ('Drivers', 'drivers', 'UEFI'):
+        keyword = 'driver'
+
     for folder in folders:
-        mapper = mappers[folder.name]
-        a, b = ('OC/', 'CLOVER/') if folder.name == 'CLOVER' else ('CLOVER/', 'OC/')
+        name = folder.name
+        mapper = mappers[name]
+        other = 'CLOVER' if name == 'OC' else 'OC'
+        packages = []
         with open(R('packages.csv'), 'r') as f:
             keys = f.readline()[:-1].lower().split(',')
             for x in f:
                 package = Package(**dict(zip(keys, x[:-1].split(','))))
                 pf = package.folder
 
-                if pf.startswith(a):
-                    continue
-                elif 'kext' in lowerpath and 'kext' not in pf.lower():
-                    continue
-                elif 'driver' in lowerpath and 'driver' not in pf.lower():
+                if pf[0] == '#':  # remove this
+                    for r in folder.rglob(package.name):
+                        print('Remove {}'.format(r))
+                        sh('rm -rf {}'.format(r))
                     continue
 
-                if pf.startswith(b):
-                    pf = pf[len(b):]
-                elif x[0] == '#':
-                    pf = pf[1:]
-
-                package.folder = folder.joinpath(mapper.get(pf, pf))
-
-                if path.name in package.items:
+                if package.name == path.name:
+                    package.folder = path.parent
                     packages = [package]
                     break
 
-                if x[0] == '#':
-                    for item in package.items:
-                        sh('rm -rf {}'.format(package.folder.joinpath(item)))
+                if pf.startswith(other) or keyword not in pf.lower():
                     continue
 
-                packages.append(package)
+                if pf.startswith(name):
+                    package.folder = R(pf)
+                else:
+                    package.folder = folder / mapper.get(pf, pf)
 
-    if packages and Confirm('Do packages update'):
-        packages = update_packages(packages)
-        patching(packages)
+                packages.append(package)
 
     ssdtpath = ''
     if path.name == root.name:
