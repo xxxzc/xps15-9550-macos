@@ -2,6 +2,17 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
+## [2001](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2000)
+
+- Audio/Headphone: **please use [ComboJack](https://github.com/hackintosh-stuff/ComboJack/tree/master/ComboJack_Installer) to get audio work**
+  - Remove AppleALC patch
+  - use layout-id 72
+  - add VerbStub.kext
+- Use VoodooI2C 2.2 because 2.3 will cause panic after wake
+- Set delay after typing to 50ms in VoodooI2CHID.kext
+- Replace `ECDV to EC renaming` with fake EC device for OpenCore to boot Windows
+- Use **balance performance** `CPUFriendDataProvider.kext` from [one-key-cpufriend](https://github.com/stevezhengshiqi/one-key-cpufriend)
+
 ## [1912](https://github.com/xxxzc/xps15-9550-macos/releases/tag/1912)
 
 - Correct the order of kexts in OpenCore config.plist [issues#36](https://github.com/xxxzc/xps15-9550-macos/issues/36)
@@ -129,9 +140,9 @@ There are two methods to drive headphone:
 
 ## 1901
 
-Update `AirportBrcmFixup` to `1.1.9` and add `brcmfx-country=#a` boot arg to fix 5GHz WiFi speed, thanks @CyJaySong. [issues#12](https://github.com/xxxzc/xps15-9550-macos/issues/12)
+- Update `AirportBrcmFixup` to `1.1.9` and add `brcmfx-country=#a` boot arg to fix 5GHz WiFi speed, thanks @CyJaySong. [issues#12](https://github.com/xxxzc/xps15-9550-macos/issues/12)
 
-Update `SSDT-RMCF.aml` and `SSDT-PNLF.aml` （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）
+- Update `SSDT-RMCF.aml` and `SSDT-PNLF.aml` （from [RehabMan/OS-X-Clover-Laptop-Config](https://github.com/RehabMan/OS-X-Clover-Laptop-Config)）
 
 ## 1811
 

@@ -1,84 +1,39 @@
 ## Configuration
 
-| Model     | XPS15 9550/MBP13,3         | Version        | 10.15.1 19B88       |
+| Model     | MacBookPro13,3             | Version        | 10.15.2 19C57       |
 | --------- | :------------------------- | -------------- | ------------------- |
 | Processor | Intel Core i5-6300HQ       | Graphics       | HD Graphics 530     |
 | Memory    | Micron 2133MHz DDR4 8GB x2 | Disk           | Samsung PM961 512GB |
 | Audio     | Realtek ALC298             | WiFi/Bluetooth | Dell Wireless 1830  |
 | Display   | Sharp LQ156D1 UHD          | Monitor        | HKC GF40 FHD 144Hz  |
 
-### Not Working 
+### Not Working
 
+- Bluetooth may not work
 - Thunderbolt Devices
 - SD Card (Disabled in BIOS)
+- Discrete GPU
 
 ## Installation
 
-> update.py requires python version >= 3.5
+**Please use [the latest release](https://github.com/xxxzc/xps15-9550-macos/releases/latest).**
 
-### Release
-
-The simplest and most stable way is just using [the latest release](https://github.com/xxxzc/xps15-9550-macos/releases/latest).
-
-Or use `python update.py --release`：
-
-```shell
-python update.py --release # get latest CLOVER and OC
-python update.py CLOVER --release # get latest CLOVER only
-python update.py --release 1911 # get version 1911
-```
-
-### Update
-
-You can use `update.py` to update kexts, drivers and bootloader that are list in package.csv.
-
-```sh
-python update.py CLOVER/CLOVERX64.efi # update CLOVER bootloader
-python update.py OC/Kexts/Lilu.kext # update this kext
-python update.py CLOVER # update kexts, drivers and bootloader
-```
-
-Run `python update.py --self` to get the latest files from this repo.
-
-### Customize
-
-You can run `python update.py --set k1=v1 k2=v2...` to customize your config.plist.
-
-**SMBIOS**
-
-```sh
-python update.py --set sn=xxx mlb=yyy smuuid=zzz
-```
-
-Run `sh ./Script/gen_smbios.sh` to generate one and set to config.plist：
-
-```sh
-python update.py --set $(sh Script/gen_smbios.sh)
-```
-
-**BOOT**
-
-Use `bootarg+xxx` to add/change bootarg, use `bootarg-xxx` to remove a bootarg:
-
-```sh
-python update.py --set bootarg--v \ # remove -v
-bootarg+darkwake=1 \ # set darkwake=1
-uiscale=1 \ # for FHD display, default to 2(for UHD)
-timeout=-1 \ # set boot ui timeout
-```
-
-**THEME**
-
-```shell
-python update.py CLOVER/themes/xxx # download theme xxx (need git)
-python update.py CLOVER --set theme=xxx # set theme to xxx
-```
-
-## Issues
-
-You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) for the installation guide and solutions to some common issues. 
+You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) for the installation guide and solutions to some common issues.
 
 But note that please create an issue **in this repository** if you encounter any problem when **using this config** (Please don't disturb others). My writing in English is poooooor:(, but I can read :).
+
+### Headphone
+
+~~@qeeqez found layout-id 30 is good to drive headphone without PluginFix([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96)), and it also works for me.~~ 
+
+After updating to 10.15.1, headphone will be distorted after a few minutes in battery mode. 
+
+You have to install [ComboJack](https://github.com/hackintosh-stuff/ComboJack/tree/master/ComboJack_Installer):
+
+1. remove CodecCommander.kext and uninstall ALCPlugFix
+2. put VerbStub.kext in kext folder
+3. set layout-id to 72 
+4. run install.sh
 
 ### Sleep Wake
 
@@ -94,17 +49,37 @@ sudo pmset -b tcpkeepalive 0 (optional)
 
 Please uncheck all options (except `Prevent computer from sleeping...`, which is optional) in the `Energy Saver` panel.
 
-### Headphone
+### SN MLB SmUUID
 
-@qeeqez found layout-id 30 is good to drive headphone without PluginFix([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96)), and it also works for me. If not, you have to install [ALCPlugFix](https://github.com/daliansky/XiaoMi-Pro-Hackintosh/tree/master/ALCPlugFix).
+Please use your own SN, MLB (use [MacInfoPkg](https://github.com/acidanthera/MacInfoPkg) or Clover Configurator or [Hackintool](https://www.tonymacx86.com/threads/release-hackintool-v2-8-6.254559/)) and SmUUID.
+
+```sh
+python update.py --set sn=xxx mlb=yyy smuuid=zzz
+python update.py --gen # generate and use new SN, MLB and SmUUID
+```
+
+As for SmUUID, **please use your Windows system UUID**: run  `wmic csproduct get UUID` in CMD, because OpenCore will use SystemUUID you set in OC/config.plist to boot Windows.
 
 ### FHD Display
 
-```shell
-# Font Rendering
+If you are using FHD(1080p) display, you may want to enable font smoothing:
+
+```
 defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
-# Boot UI Scaling
+```
+
+and set CLOVER/OC booting uiscale to 1 (normal size of Apple LOGO):
+
+```sh
 python update.py --set uiscale=1
+```
+
+### CLOVER Theme
+
+You can set theme to one of these [themes](https://sourceforge.net/p/cloverefiboot/themes/ci/master/tree/themes/).
+
+```sh
+python update.py --set theme=xxx # will download if not exist
 ```
 
 ### NTFS Writing
