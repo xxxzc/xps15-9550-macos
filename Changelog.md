@@ -2,7 +2,27 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
-## [2001](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2000)
+## [2002](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2002)
+
+- Use "balance power" `CPUFriendDataProvider.kext`
+- Add `NVMeFix.kext` from https://github.com/acidanthera/NVMeFix
+- Remove `SMCSuperIO.kext` because no supported device found
+
+- Update BRT6 rename patch to fix an ACPI not found error
+- Update SSDT-DGPU to disable dGPU at wake
+- Use ECDV to EC rename patch to replace SSDT-EC
+
+**CLOVER**
+
+- Disable PluginType injection to use SSDT-PLUG and fix an ACPI conflict error
+
+**OC**
+
+- Add Input section to handle key pressing on OC menu
+- Set AppleSmcIo to replace VirtualSMC.efi
+- Add bootercfg to stop 'start' printing credit [@ATFieldBeast](https://github.com/ATFieldBeast)
+
+## [2001](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2001)
 
 - Audio/Headphone: **please use [ComboJack](https://github.com/hackintosh-stuff/ComboJack/tree/master/ComboJack_Installer) to get audio work**
   - Remove AppleALC patch
