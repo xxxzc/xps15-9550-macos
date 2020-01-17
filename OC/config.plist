@@ -515,6 +515,8 @@
 			<integer>50000</integer>
 		</dict>
 		<dict>
+			<key>AppleSmcIo</key>
+			<true/>
 			<key>ConsoleControl</key>
 			<true/>
 			<key>IgnoreInvalidFlexRatio</key>
