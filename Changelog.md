@@ -2,6 +2,11 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
+## [2003][https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003]
+
+- Fix SSDT-DGPU
+- Remove RequestBootVarRouting (cause kernel panic on OC 0.5.4
+
 ## [2002](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2002)
 
 - Use "balance power" `CPUFriendDataProvider.kext`

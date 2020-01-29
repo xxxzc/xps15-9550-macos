@@ -1,6 +1,6 @@
 ## Configuration
 
-| Model     | MacBookPro13,3             | Version        | 10.15.2 19C57       |
+| Model     | MacBookPro13,3             | Version        | 10.15.3 19D76       |
 | --------- | :------------------------- | -------------- | ------------------- |
 | Processor | Intel Core i5-6300HQ       | Graphics       | HD Graphics 530     |
 | Memory    | Micron 2133MHz DDR4 8GB x2 | Disk           | Samsung PM961 512GB |
