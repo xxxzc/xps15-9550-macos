@@ -16,7 +16,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "DGPU", 0x00000000)
     Method (DGPU, 0, NotSerialized)
     {
         If (CondRefOf(\_SB.PCI0.PEG0.PEGP._OFF)) { \_SB.PCI0.PEG0.PEGP._OFF() }
-        If (CondRefOf(\_SB.PCI0.PGOF)) { \_SB.PCI0.PGOF (Zero) } // [3]
+//        If (CondRefOf(\_SB.PCI0.PGOF)) { \_SB.PCI0.PGOF (Zero) } // [3]
     }
 
     // disable dGPU on bootup[1]
@@ -25,7 +25,10 @@ DefinitionBlock ("", "SSDT", 2, "hack", "DGPU", 0x00000000)
         Name (_HID, "RMD10000")  // _HID: Hardware ID
         Method (_INI, 0, NotSerialized)  // _INI: Initialize
         {
-            DGPU ()
+            If (_OSI ("Darwin"))
+            {
+                DGPU ()
+            }
         }
         
         Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -39,9 +42,11 @@ DefinitionBlock ("", "SSDT", 2, "hack", "DGPU", 0x00000000)
     // disable dGPU at wake[2]
     Method (_WAK, 1)
     {
-        // call into original _WAK method
         Local0 = ZWAK (Arg0)
-        DGPU ()
+        If (_OSI ("Darwin"))
+        {
+            DGPU ()
+        }
         Return (Local0)
     }
 }
