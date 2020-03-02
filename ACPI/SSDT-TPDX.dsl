@@ -35,20 +35,23 @@ DefinitionBlock ("", "SSDT", 2, "hack", "TPDX", 0x00000000)
     
     // disable I2C0 since TPD0 in I2C0 may cause high cpu usage[1]
     // simply setting SDS0 to Zero seems not work
-    Scope (_SB.PCI0.I2C0)
-    {
-        Method (_STA, 0, NotSerialized)  // _STA: Status
-        {
-            If (_OSI ("Darwin"))
-            {
-                Return (Zero)
-            }
-            Else
-            {
-                Return (0x0F)
-            }
-        }
-    }
+    // disable I2C0 will cause VoodooI2C 2.3 sleep failure
+    // if your kernel task has high cpu usage, you have to enable following code
+    // and use VoodooI2C 2.2
+//    Scope (_SB.PCI0.I2C0)
+//    {
+//        Method (_STA, 0, NotSerialized)  // _STA: Status
+//        {
+//            If (_OSI ("Darwin"))
+//            {
+//                Return (Zero)
+//            }
+//            Else
+//            {
+//                Return (0x0F)
+//            }
+//        }
+//    }
 
     // copied from TPD1 with custom behaviors[2]
     Scope (_SB.PCI0.I2C1)
