@@ -81,20 +81,6 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename ECDV to EC</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>
-				RUNEVg==
-				</data>
-				<key>Replace</key>
-				<data>
-				RUNfXw==
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
 				<string>Rename _WAK to ZWAK</string>
 				<key>Enabled</key>
 				<true/>
@@ -430,6 +416,12 @@
 			<true/>
 			<key>DisableIoMapper</key>
 			<true/>
+			<key>LapicKernelPanic</key>
+			<true/>
+			<key>PowerTimeoutKernelPanic</key>
+			<true/>
+			<key>ThirdPartyDrives</key>
+			<true/>
 		</dict>
 	</dict>
 	<key>Misc</key>
@@ -458,14 +450,12 @@
 		<dict>
 			<key>AllowNvramReset</key>
 			<true/>
-			<key>ExposeSensitiveData</key>
-			<integer>2</integer>
-			<key>RequireSignature</key>
-			<false/>
-			<key>RequireVault</key>
-			<false/>
+			<key>AllowSetDefault</key>
+			<true/>
 			<key>ScanPolicy</key>
 			<integer>0</integer>
+			<key>Vault</key>
+			<string>Optional</string>
 		</dict>
 	</dict>
 	<key>NVRAM</key>
@@ -512,6 +502,8 @@
 		<true/>
 		<key>Generic</key>
 		<dict>
+			<key>AdviseWindows</key>
+			<true/>
 			<key>MLB</key>
 			<string>C028248024NJP4FA8</string>
 			<key>SystemProductName</key>
@@ -553,22 +545,25 @@
 			<key>TimerResolution</key>
 			<integer>50000</integer>
 		</dict>
+		<key>Output</key>
+		<dict>
+			<key>Resolution</key>
+			<string>Max</string>
+			<key>ProvideConsoleGop</key>
+			<true/>
+			<key>SanitiseClearScreen</key>
+			<true/>
+		</dict>		
 		<key>Protocols</key>
 		<dict>
 			<key>AppleSmcIo</key>
-			<true/>
-			<key>ConsoleControl</key>
 			<true/>
 		</dict>
 		<key>Quirks</key>
 		<dict>
 			<key>IgnoreInvalidFlexRatio</key>
 			<true/>
-			<key>ProvideConsoleGop</key>
-			<true/>
 			<key>RequestBootVarRouting</key>
-			<false/>
-			<key>SanitiseClearScreen</key>
 			<true/>
 		</dict>
 	</dict>
