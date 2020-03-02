@@ -42,20 +42,6 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename ECDV to EC</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>
-					RUNEVg==
-					</data>
-					<key>Replace</key>
-					<data>
-					RUNfXw==
-					</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
 					<string>Rename _WAK to ZWAK</string>
 					<key>Disabled</key>
 					<false/>

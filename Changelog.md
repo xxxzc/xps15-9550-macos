@@ -2,6 +2,16 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
+## [2004](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2004)
+
+- Replace ECDV to EC renaming with fake EC
+
+- Update OC config for OC 0.5.6
+
+- Remove I2C0 disabling patch, which will cause VoodooI2C 2.3 kernel panic
+
+  If you still have high kernel task issue, please use SSDT-TPDX.aml in [2003][https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003], and use VoodooI2C 2.2
+
 ## [2003][https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003]
 
 - Fix SSDT-DGPU
