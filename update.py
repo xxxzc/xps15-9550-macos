@@ -9,6 +9,17 @@ from subprocess import check_output
 from urllib.request import urlopen, Request, urlretrieve
 import json
 import re
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+ORDERED_KEXTS = ['Lilu.kext', 'VirtualSMC.kext',
+                 'CPUFriend.kext', 'CPUFriendDataProvider.kext',
+                 'AppleALC.kext', 'VoodooInput.kext',
+                 'VoodooGPIO.kext', 'VoodooI2CServices.kext',
+                 'VoodooI2C.kext', 'VoodooI2CHID.kext']
+DEFAULT_PRIORITY = len(ORDERED_KEXTS)
+KEXT_PRIORITY = dict(zip(ORDERED_KEXTS, range(DEFAULT_PRIORITY)))
 
 root = Path(__file__).absolute().parent
 
@@ -49,6 +60,10 @@ parser.add_argument('--gen', default=False, action='store_true',
                     help='generate SN, MLB and SmUUID')
 parser.add_argument('--self', default=False, action='store_true',
                     help='update from https://github.com/xxxzc/xps15-9550-macos/archive/master.zip')
+parser.add_argument('--config', default=False, action='store_true',
+                    help='update config')
+parser.add_argument('--display', default=False,
+                    help='fhd or uhd')
 
 args = parser.parse_args()
 
@@ -114,6 +129,7 @@ class Plist:
         timeout='Boot>Timeout',
         defaultvolume='Boot>DefaultVolume',
         layoutid='Devices>Properties>PciRoot(0x0)/Pci(0x1f,0x3)>layout-id',
+        dmlr='Devices>Properties>PciRoot(0x0)/Pci(0x2,0x0)>dpcd-max-link-rate',
         deviceproperties='Devices>Properties'
     )
     oc_keywords = dict(
@@ -124,6 +140,7 @@ class Plist:
         bootarg='NVRAM>Add>7C436110-AB2A-4BBB-A880-FE41995C9F82>boot-args',
         timeout='Misc>Boot>Timeout',
         layoutid='DeviceProperties>Add>PciRoot(0x0)/Pci(0x1f,0x3)>layout-id',
+        dmlr='DeviceProperties>Add>PciRoot(0x0)/Pci(0x2,0x0)>dpcd-max-link-rate',
         deviceproperties='DeviceProperties>Add'
     )
 
@@ -215,7 +232,7 @@ class Package:
         self.__dict__.update(dict(lver=lver, ldat=ldat))
 
         # get remote info
-        rurl, rver, rdat = self.url, self.version, date.today()
+        rurl, rver, rdat = self.url, self.version, datetime.today()
 
         if lver.split('(')[-1].startswith(rver):
             return False
@@ -223,6 +240,8 @@ class Package:
         _info = self.url+self.version+self.pattern
         if _info in remote_infos:
             rurl, rver, rdat = remote_infos[_info]
+        elif '.' in rurl.rsplit('/', 1)[-1]:
+            pass
         elif 'github' in rurl or 'bitbucket' in rurl:
             domain, user, repo = rurl.split('/')[-3:]
             isgithub = 'github' in domain
@@ -257,7 +276,7 @@ class Package:
             return True
         if lver.split('(')[-1] == rver.split('(')[-1]:
             return False
-        return abs((rdat - ldat).days) > 1
+        return abs((rdat - ldat).seconds) > 60
 
     def update(self, tmp=Path(__file__).parent.joinpath('tmp')):
         tmpfile = tmp / self.rurl.split('/')[-1]
@@ -326,7 +345,7 @@ def set_config(configfile: Path, kvs: list):
 
             if k == 'uiscale':
                 if config.type == 'oc':
-                    v = 'Ag==' if v == '2' else 'AQ==' 
+                    v = 'Ag==' if v == '2' else 'AQ=='
 
             config.set(k, v)
             print('Set', config.keyword(k), 'to', v)
@@ -397,12 +416,12 @@ def update_packages(packages):
 
 
 def patching(kexts: Path):
-    Title('Set delay after typing to 50ms')
-    info = Plist(kexts / 'VoodooI2CHID.kext' / 'Contents' / 'Info.plist')
-    info.set('IOKitPersonalities>VoodooI2CHIDDevice Precision Touchpad HID Event Driver>QuietTimeAfterTyping', 50)
-    info.save()
-    Title('Delete VoodooPS2Mouse.kext and VoodooPS2Trackpad.kext')
-    for kext in ('VoodooPS2Mouse.kext', 'VoodooPS2Trackpad.kext'):
+    # Title('Set delay after typing to 50ms')
+    # info = Plist(kexts / 'VoodooI2CHID.kext' / 'Contents' / 'Info.plist')
+    # info.set('IOKitPersonalities>VoodooI2CHIDDevice Precision Touchpad HID Event Driver>QuietTimeAfterTyping', 50)
+    # info.save()
+    Title('Delete VoodooInput.kext, VoodooPS2Mouse.kext and VoodooPS2Trackpad.kext')
+    for kext in ('VoodooPS2Mouse.kext', 'VoodooPS2Trackpad.kext', 'VoodooInput.kext'):
         sh('rm -rf {}'.format(kexts / 'VoodooPS2Controller.kext' /
                               'Contents' / 'PlugIns' / kext))
 
@@ -521,7 +540,7 @@ def update_oc_info(folder: Path):
     kextpath = folder / 'Kexts'
     prioritys = {
         'Lilu.kext': 0, 'VirtualSMC.kext': 10, 'AppleALC.kext': 20,
-        'VoodooGPIO.kext': 30, 'VoodooI2CServices.kext': 35,
+        'VoodooInput.kext': 25, 'VoodooGPIO.kext': 30, 'VoodooI2CServices.kext': 35,
         'VoodooI2C.kext': 40, 'VoodooI2CHID.kext': 50,
         'CPUFriend.kext': 21, 'CPUFriendDataProvider.kext': 22,
     }
@@ -567,8 +586,8 @@ if __name__ == '__main__':
         sh('rm -rf {}/*.aml'.format(R('ACPI')))
         for folder in folders:
             set_config(folder / 'config.plist',
-                       'sn=C02WVDY3KGYG mlb=C028248024NJP4FA8 smuuid=C167D3A2-CC13-4041-8CED-553D772C0749 bootarg+-v'.split(' '))
-            sh('cd {} && zip -r XPS15-9550-{}-$(date +%y%m).zip {} README.md update.py packages.csv'.format(
+                       'sn=C02R8JZWGTFN mlb=C026078024NHCF91M smuuid=407F7652-2DA0-4059-97B6-F68DB619930A bootarg+-v'.split(' '))
+            sh('cd {} && zip -r XPS15-9550-{}-$(date +%y%m).zip {} README.md README_CN.md update.py packages.csv'.format(
                 root, folder.name, folder.name))
         Done()
 
@@ -626,6 +645,24 @@ if __name__ == '__main__':
         else:
             for folder in folders:
                 set_config(folder / 'config.plist', args.set)
+        Done()
+
+    if args.display:
+        if args.display == 'fhd':
+            scale, dmlr = '1', 'CgAAAA=='
+        else:
+            scale, dmlr = '2', 'FAAAAA=='
+
+        for folder in folders:
+            set_config(folder / 'config.plist',
+                       ('uiscale=' + scale, 'dmlr=' + dmlr))
+        Done()
+
+    if args.config:
+        update_acpi(R('ACPI'), folders)
+        for folder in folders:
+            patching(folder / mappers[folder.name].get('Kexts', 'Kexts'))
+        update_oc_info(OC)
         Done()
 
     '''

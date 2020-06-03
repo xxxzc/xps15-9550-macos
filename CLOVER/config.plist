@@ -28,6 +28,20 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
+					<string>Rename _PTS to ZPTS</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					X1BUUwE=
+					</data>
+					<key>Replace</key>
+					<data>
+					WlBUUwE=
+					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
 					<string>Rename GFX0.BRT6 to BRTX</string>
 					<key>Disabled</key>
 					<false/>
@@ -96,7 +110,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 -v</string>
+		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 alcdelay=500 -v</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -133,12 +147,13 @@
 		</dict>
 		<key>Properties</key>
 		<dict>
+			<key>#PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)</key>
+			<dict>
+				<key>pci-aspm-default</key>
+				<integer>0</integer>
+			</dict>
 			<key>PciRoot(0x0)/Pci(0x1f,0x3)</key>
 			<dict>
-				<key>device-id</key>
-				<data>
-				cKEAAA==
-				</data>
 				<key>layout-id</key>
 				<integer>72</integer>
 			</dict>
@@ -149,6 +164,10 @@
 				AAAbGQ==
 				</data>
 				<key>disable-external-gpu</key>
+				<data>
+				AQAAAA==
+				</data>
+				<key>enable-hdmi-dividers-fix</key>
 				<data>
 				AQAAAA==
 				</data>
@@ -170,10 +189,6 @@
 		<dict>
 			<key>FixOwnership</key>
 			<true/>
-			<key>HighCurrent</key>
-			<false/>
-			<key>Inject</key>
-			<false/>
 		</dict>
 	</dict>
 	<key>GUI</key>
@@ -213,6 +228,23 @@
 		<false/>
 		<key>DellSMBIOSPatch</key>
 		<true/>
+		<key>KextsToPatch</key>
+		<array>
+			<dict>
+				<key>Disabled</key>
+				<false/>
+				<key>Find</key>
+				<data>
+				cJ0AAA==
+				</data>
+				<key>Name</key>
+				<string>com.apple.driver.AppleHDAController</string>
+				<key>Replace</key>
+				<data>
+				SKMAAA==
+				</data>
+			</dict>
+		</array>
 	</dict>
 	<key>RtVariables</key>
 	<dict>
@@ -224,13 +256,13 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>C028248024NJP4FA8</string>
+		<string>C026078024NHCF91M</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>C02WVDY3KGYG</string>
+		<string>C02R8JZWGTFN</string>
 		<key>SmUUID</key>
-		<string>C167D3A2-CC13-4041-8CED-553D772C0749</string>
+		<string>407F7652-2DA0-4059-97B6-F68DB619930A</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
