@@ -121,13 +121,11 @@
 		<dict>
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
-			<key>EnableSafeModeSlide</key>
-			<true/>
 			<key>EnableWriteUnprotector</key>
 			<true/>
-			<key>ProvideCustomSlide</key>
-			<true/>
 			<key>SetupVirtualMap</key>
+			<true/>
+			<key>SyncRuntimePermissions</key>
 			<true/>
 		</dict>
 	</dict>
@@ -414,7 +412,7 @@
 			<true/>
 			<key>CustomSMBIOSGuid</key>
 			<true/>
-			<key>DisableIoMapper</key>
+			<key>DisableRtcChecksum</key>
 			<true/>
 			<key>LapicKernelPanic</key>
 			<true/>
@@ -479,7 +477,7 @@
 				</data>
 			</dict>
 		</dict>
-		<key>Block</key>
+		<key>Delete</key>
 		<dict>
 			<key>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</key>
 			<array>
@@ -503,13 +501,13 @@
 			<key>AdviseWindows</key>
 			<true/>
 			<key>MLB</key>
-			<string>C028248024NJP4FA8</string>
+			<string>C026078024NHCF91M</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
-			<string>C02WVDY3KGYG</string>
+			<string>C02R8JZWGTFN</string>
 			<key>SystemUUID</key>
-			<string>C167D3A2-CC13-4041-8CED-553D772C0749</string>
+			<string>407F7652-2DA0-4059-97B6-F68DB619930A</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
@@ -522,6 +520,13 @@
 	</dict>
 	<key>UEFI</key>
 	<dict>
+		<key>APFS</key>
+		<dict>
+			<key>EnableJumpstart</key>
+			<true/>
+			<key>HideVerbose</key>
+			<true/>
+		</dict>
 		<key>ConnectDrivers</key>
 		<true/>
 		<key>Drivers</key>
@@ -529,6 +534,8 @@
 			<string>ApfsDriverLoader.efi</string>
 			<string>FwRuntimeServices.efi</string>
 			<string>VBoxHfs.efi</string>
+			<string>HfsPlus.efi</string>
+			<string>OpenRuntime.efi</string>
 		</array>
 		<key>Input</key>
 		<dict>
@@ -545,22 +552,20 @@
 		</dict>
 		<key>Output</key>
 		<dict>
-			<key>Resolution</key>
-			<string>Max</string>
 			<key>ProvideConsoleGop</key>
 			<true/>
+			<key>Resolution</key>
+			<string>Max</string>
 			<key>SanitiseClearScreen</key>
 			<true/>
-		</dict>		
-		<key>Protocols</key>
+		</dict>
+		<key>ProtocolOverrides</key>
 		<dict>
 			<key>AppleSmcIo</key>
 			<true/>
 		</dict>
 		<key>Quirks</key>
 		<dict>
-			<key>IgnoreInvalidFlexRatio</key>
-			<true/>
 			<key>RequestBootVarRouting</key>
 			<true/>
 		</dict>
