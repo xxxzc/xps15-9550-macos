@@ -11,20 +11,6 @@ DefinitionBlock ("", "SSDT", 2, "hack", "TYPC", 0x00000000)
 {
     External (_SB_.PCI0.RP15.PXSX, DeviceObj)
 
-    // turn off warning that will cause sleep failure[2]
-    Scope (\_GPE)
-    {
-        Method (XTBT, 2, NotSerialized)
-        {
-            Return (Zero)
-        }
-
-        Method (YTBT, 2, NotSerialized)
-        {
-            Return (Zero)
-        }
-    }
-
     Scope (\_SB.PCI0.RP15.PXSX)
     {
         // key method to make type-c removable

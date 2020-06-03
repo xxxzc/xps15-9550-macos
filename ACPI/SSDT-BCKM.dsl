@@ -50,7 +50,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "BCKM", 0x00000000)
         {
             // simulate Windows 2013(Win81)
             \_SB.ACOS = 0x80
-            \_SB.ACSE = 0x02
+            \_SB.ACSE = Zero
         }
     }
 
