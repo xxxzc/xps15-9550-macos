@@ -2,6 +2,13 @@
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
 
+## [2006](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2006)
+
+- Remove `FakePCIID.kext` and `FakePCIID_Intel_HDMI_Audio.kext`, use alcdelay property and audio controller for audio and HDMI audio
+- Add `SSDT-PTSWAK` to fix issue#45
+- Add SSDT-USBX and update SSDT-PCI0 from OC AcpiSamples
+- Update config for OC 0.5.9
+
 ## [2004](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2004)
 
 - Replace ECDV to EC renaming with fake EC
@@ -10,9 +17,8 @@ Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated 
 
 - Remove I2C0 disabling patch, which will cause VoodooI2C 2.3 kernel panic
 
-  If you still have high kernel task issue, please use SSDT-TPDX.aml in [2003][https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003], and use VoodooI2C 2.2
 
-## [2003][https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003]
+## [2003](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2003)
 
 - Fix SSDT-DGPU
 - Remove RequestBootVarRouting (cause kernel panic on OC 0.5.4
