@@ -147,11 +147,13 @@
 		<dict>
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
+			<key>EnableSafeModeSlide</key>
+			<true/>
 			<key>EnableWriteUnprotector</key>
 			<true/>
-			<key>SetupVirtualMap</key>
+			<key>ProvideCustomSlide</key>
 			<true/>
-			<key>SyncRuntimePermissions</key>
+			<key>SetupVirtualMap</key>
 			<true/>
 		</dict>
 	</dict>
@@ -184,6 +186,10 @@
 				AQAAAA==
 				</data>
 				<key>enable-hdmi20</key>
+				<data>
+				AQAAAA==
+				</data>
+				<key>force-online</key>
 				<data>
 				AQAAAA==
 				</data>
@@ -470,6 +476,8 @@
 			<true/>
 			<key>CustomSMBIOSGuid</key>
 			<true/>
+			<key>DisableIoMapper</key>
+			<true/>
 			<key>DisableRtcChecksum</key>
 			<true/>
 			<key>LapicKernelPanic</key>
@@ -559,13 +567,13 @@
 			<key>AdviseWindows</key>
 			<true/>
 			<key>MLB</key>
-			<string>C026078024NHCF91M</string>
+			<string>C02646401CDHCF9CB</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
-			<string>C02R8JZWGTFN</string>
+			<string>C02SPCZDGTFN</string>
 			<key>SystemUUID</key>
-			<string>407F7652-2DA0-4059-97B6-F68DB619930A</string>
+			<string>BCD26F84-9553-4D35-A847-8BA686936826</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
@@ -621,6 +629,10 @@
 		</dict>
 		<key>Quirks</key>
 		<dict>
+			<key>IgnoreInvalidFlexRatio</key>
+			<true/>
+			<key>ReleaseUsbOwnership</key>
+			<true/>
 			<key>RequestBootVarRouting</key>
 			<true/>
 		</dict>

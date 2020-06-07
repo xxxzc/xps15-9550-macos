@@ -175,6 +175,10 @@
 				<data>
 				AQAAAA==
 				</data>
+				<key>force-online</key>
+				<data>
+				AQAAAA==
+				</data>
 				<key>framebuffer-patch-enable</key>
 				<data>
 				AQAAAA==
@@ -256,13 +260,13 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>C026078024NHCF91M</string>
+		<string>C02646401CDHCF9CB</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>C02R8JZWGTFN</string>
+		<string>C02SPCZDGTFN</string>
 		<key>SmUUID</key>
-		<string>407F7652-2DA0-4059-97B6-F68DB619930A</string>
+		<string>BCD26F84-9553-4D35-A847-8BA686936826</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
