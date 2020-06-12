@@ -4,7 +4,6 @@ Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated 
 
 ## [2006](https://github.com/xxxzc/xps15-9550-macos/releases/tag/2006)
 
-- Remove `FakePCIID.kext` and `FakePCIID_Intel_HDMI_Audio.kext`, use alcdelay property and audio controller for audio and HDMI audio
 - Add `SSDT-PTSWAK` to fix issue#45
 - Add SSDT-USBX and update SSDT-PCI0 from OC AcpiSamples
 - Update config for OC 0.5.9

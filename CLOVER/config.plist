@@ -236,7 +236,7 @@
 		<array>
 			<dict>
 				<key>Disabled</key>
-				<false/>
+				<true/>
 				<key>Find</key>
 				<data>
 				cJ0AAA==
@@ -260,13 +260,13 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BoardSerialNumber</key>
-		<string>C02646401CDHCF9CB</string>
+		<string>C026078024NHCF91M</string>
 		<key>ProductName</key>
 		<string>MacBookPro13,3</string>
 		<key>SerialNumber</key>
-		<string>C02SPCZDGTFN</string>
+		<string>C02R8JZWGTFN</string>
 		<key>SmUUID</key>
-		<string>BCD26F84-9553-4D35-A847-8BA686936826</string>
+		<string>407F7652-2DA0-4059-97B6-F68DB619930A</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
