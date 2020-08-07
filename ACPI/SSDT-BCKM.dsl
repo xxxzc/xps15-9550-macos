@@ -1,5 +1,5 @@
 // Make brightness control and brightness keys work
-// Patch: Rename GFX0.BRT6 to BRTX 
+// Patch: Rename GFX0.BRT6 to BRTX, pair with SSDT-BCKM
 // Find: IEJSVDY=
 // Replace: IEJSVFg=
 // References:

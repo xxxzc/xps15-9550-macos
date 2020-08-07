@@ -94,7 +94,10 @@ DefinitionBlock ("", "SSDT", 2, "hack", "PCI0", 0x00000000)
         
         Method (_STA, 0, NotSerialized)  // _STA: Status
         {
-            If (_OSI ("Darwin")) { Return (0x0F) }
+            If (_OSI ("Darwin")) 
+            { 
+                Return (0x0F) 
+            }
             Return (Zero)
         }
     }

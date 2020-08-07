@@ -1,5 +1,5 @@
 // Fix instant wake when sleeping on AC power
-// Patch: Rename GPRW to YPRW
+// Patch: Rename GPRW to YPRW, pair with SSDT-BCKM
 // Find: FEAGR1BSVwI=
 // Replace: FEAGWVBSVwI=
 // References:
