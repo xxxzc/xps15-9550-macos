@@ -40,12 +40,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Path</key>
-				<string>SSDT-PTSWAK.aml</string>
-			</dict>
-			<dict>
-				<key>Enabled</key>
-				<true/>
-				<key>Path</key>
 				<string>SSDT-TPDX.aml</string>
 			</dict>
 			<dict>
@@ -60,40 +54,18 @@
 				<key>Path</key>
 				<string>SSDT-USBX.aml</string>
 			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>SSDT-ZPTS.aml</string>
+			</dict>
 		</array>
 		<key>Patch</key>
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>Rename GPRW to YPRW</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>
-				FEAGR1BSVwI=
-				</data>
-				<key>Replace</key>
-				<data>
-				FEAGWVBSVwI=
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>Rename _PTS to ZPTS</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>
-				X1BUUwE=
-				</data>
-				<key>Replace</key>
-				<data>
-				WlBUUwE=
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>Rename GFX0.BRT6 to BRTX</string>
+				<string>Rename GFX0.BRT6 to BRTX, pair with SSDT-BCKM</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -107,7 +79,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename _WAK to ZWAK</string>
+				<string>Rename _WAK to ZWAK, pair with SSDT-DGPU</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -121,7 +93,21 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename RP15.PXSX._RMV to XRMV</string>
+				<string>Rename GPRW to YPRW, pair with SSDT-BCKM</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				FEAGR1BSVwI=
+				</data>
+				<key>Replace</key>
+				<data>
+				FEAGWVBSVwI=
+				</data>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Rename RP15.PXSX._RMV to XRMV, pair with SSDT-BCKM</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -137,6 +123,20 @@
 				UFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJU
 				UwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQA
 				cAodUDJUQhQtSFBNRQigJpCSk1ZESUQM
+				</data>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Rename _PTS to ZPTS, pair with SSDT-ZPTS</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				X1BUUwE=
+				</data>
+				<key>Replace</key>
+				<data>
+				WlBUUwE=
 				</data>
 			</dict>
 		</array>
@@ -230,16 +230,6 @@
 			</dict>
 			<dict>
 				<key>BundlePath</key>
-				<string>AppleALC.kext</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/AppleALC</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>BundlePath</key>
 				<string>CPUFriend.kext</string>
 				<key>Enabled</key>
 				<true/>
@@ -253,6 +243,16 @@
 				<string>CPUFriendDataProvider.kext</string>
 				<key>Enabled</key>
 				<true/>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>AppleALC.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/AppleALC</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -313,6 +313,14 @@
 				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/AirportBrcmFixup</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>AirportBrcmFixup.kext/Contents/PlugIns/AirPortBrcmNIC_Injector.kext</string>
+				<key>Enabled</key>
+				<true/>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -389,6 +397,16 @@
 				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/SMCBatteryManager</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>SMCDellSensors.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/SMCDellSensors</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -480,8 +498,6 @@
 			<true/>
 			<key>DisableRtcChecksum</key>
 			<true/>
-			<key>LapicKernelPanic</key>
-			<true/>
 			<key>PowerTimeoutKernelPanic</key>
 			<true/>
 			<key>ThirdPartyDrives</key>
@@ -534,7 +550,7 @@
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
-				<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 alcdelay=500 -v</string>
+				<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 alcdelay=500</string>
 				<key>bootercfg</key>
 				<string>log=0 debug=0 level=0</string>
 				<key>csr-active-config</key>
@@ -592,6 +608,8 @@
 			<true/>
 			<key>HideVerbose</key>
 			<true/>
+			<key>JumpstartHotPlug</key>
+			<true/>
 		</dict>
 		<key>ConnectDrivers</key>
 		<true/>
@@ -626,11 +644,11 @@
 		<dict>
 			<key>AppleSmcIo</key>
 			<true/>
+			<key>FirmwareVolume</key>
+			<true/>
 		</dict>
 		<key>Quirks</key>
 		<dict>
-			<key>IgnoreInvalidFlexRatio</key>
-			<true/>
 			<key>ReleaseUsbOwnership</key>
 			<true/>
 			<key>RequestBootVarRouting</key>
