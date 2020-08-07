@@ -1,6 +1,6 @@
 ## 配置
 
-| 型号      | XPS15-9550/MacBookPro13,3  | 版本     | 10.15.5 19F101      |
+| 型号      | XPS15-9550/MacBookPro13,3  | 版本     | 10.15.6 19G73 |
 | :-------- | :------------------------- | :------- | :------------------ |
 | 处理器 | Intel Core i5-6300HQ       | 核显 | HD Graphics 530     |
 | 内存    | Micron 2133MHz DDR4 8GB x2 | 存储     | Samsung PM961 512GB |
@@ -12,11 +12,17 @@
 - 独立显卡
 - 雷电
 - SD卡（可以试试 [Sinetek-rtsx](https://github.com/cholonam/Sinetek-rtsx)）
-- 蓝牙可能不工作
+- 蓝牙可能不工作（[解释](https://github.com/xxxzc/xps15-9570-macos/issues/26)）
 
 ## 安装
 
-**请下载 [最新的 release](https://github.com/xxxzc/xps15-9550-macos/releases/latest)**。可以参考 [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) 的安装教程和一些常见问题的解决方法。但使用本库的配置遇到问题时，请在本库创建 issue。
+**请下载 [最新的 release](https://github.com/xxxzc/xps15-9550-macos/releases/latest)**。
+
+请尽量避免使用 *Clover Configurator* 或者 *OC Configurator* 打开配置文件，建议直接使用代码编辑器打开。
+
+如果你修改了ACPI/Kexts/Drivers，你可以运行 `python3 update.py --sync` 将这些修改应用到 OC 和 CLOVER，它会自动更新这些信息到 config.plist。
+
+可以参考 [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) 的安装教程和一些常见问题的解决方法。但使用本库的配置遇到问题时，请在本库创建 issue。
 
 ### FHD内屏
 
@@ -25,11 +31,7 @@
 - OC:  `NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale`  -> `AQ==`
 - CLOVER: `BootGraphics/UIScale` -> `1`
 
-### DW1820a
-
-如果你使用 DW1820a，请在 config.plist 中找到 `#PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)` 并将前缀的“#”删除。
-
-参考 [THE Solution:Dell DW1820A](https://www.tonymacx86.com/threads/the-solution-dell-dw1820a-broadcom-bcm94350zae-macos-15.288026/)
+或者运行 `python3 update.py --display fhd`。
 
 ## 安装后
 
@@ -47,7 +49,7 @@ python3 update.py --set bootarg--v
 
 ### 睡眠和唤醒
 
-1. 请运行以下指令以保证正常睡眠：
+请运行以下指令以保证正常睡眠：
 
 ```shell
 sudo pmset -a hibernatemode 0
@@ -58,19 +60,15 @@ sudo pmset -a proximitywake 0
 
 或者执行  `python3 update.py --fixsleep`。
 
-2. 除了“当显示器关闭时，防止电脑自动进入睡眠”是可选的外，请关闭设置-节能器里的所有其他选项。
+除了“当显示器关闭时，防止电脑自动进入睡眠”是可选的外，请关闭设置-节能器里的所有其他选项。
 
 ### 三码
 
-请使用你自己的三码 SN, MLB (可以使用 [MacInfoPkg](https://github.com/acidanthera/MacInfoPkg) 或 Clover Configurator 或 [Hackintool](https://www.tonymacx86.com/threads/release-hackintool-v2-8-6.254559/) 生成新的) 或者：
+请使用你自己的三码（SN，MLB 和 SmUUID），你可以复制一份 [smbios.plist](./smbios.plist)，将其中的 `sn mlb smuuid` 修改为你自己的，然后运行 `python3 update.py --smbios xxx.plist`，`xxx.plist` 为你的 smbios plist 文件。
 
-```sh
-python3 update.py --gen # 生成并使用新的 SN, MLB and SmUUID
-```
+如果你没有三码，你可以运行 `python3 update.py --gen` 来生成一份新的三码，会自动保存到 `gen_smbios.plist` 和 config 中。
 
-如果你需要使用 OpenCore 启动 Windows，请使用 Windows 的 UUID：在 Windows 的 CMD 中运行 `wmic csproduct get UUID` 即可得到该 UUID。
-
-运行 `python3 update.py --set sn=xxx mlb=yyy smuuid=zzz` 即可设置三码。
+建议你使用 Windows 的 UUID 作为 SmUUID，特别是如果你需要使用 OpenCore 启动 Windows：在 Windows 的 CMD 中运行 `wmic csproduct get UUID` 即可得到该 UUID。
 
 ### 平滑字体
 
