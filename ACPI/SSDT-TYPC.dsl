@@ -1,5 +1,5 @@
 // Type-C hotplug
-// Patch: Rename RP15.PXSX._RMV to XRMV, pair with SSDT-BCKM
+// Patch: Rename RP15.PXSX._RMV to XRMV
 // Find: X1JNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuAUFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJUUwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQAcAodUDJUQhQtSFBNRQigJpCSk1ZESUQM
 // Replace: WFJNVgCkABQGX1BTMAAUSwVfUFMzAHJNTVRCC0gFYFuAUFhWRABgCghbgRBQWFZEA1RCMlAgUDJUQiCgLpCTVEJUUwGTU0JOUlRCVVNBREJHDXNlbmRpbmcgU1hfU1RBUlQAcAodUDJUQhQtSFBNRQigJpCSk1ZESUQM
 // References:
@@ -10,6 +10,7 @@
 DefinitionBlock ("", "SSDT", 2, "hack", "TYPC", 0x00000000)
 {
     External (_SB_.PCI0.RP15.PXSX, DeviceObj)
+    External (_SB_.PCI0.RP15.PXSX.XRMV, MethodObj)
 
     Scope (\_SB.PCI0.RP15.PXSX)
     {
@@ -22,7 +23,7 @@ DefinitionBlock ("", "SSDT", 2, "hack", "TYPC", 0x00000000)
             }
             Else
             {
-                Return (Zero)
+                Return (XRMV ())
             }
         }
 
