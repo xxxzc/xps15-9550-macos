@@ -29,3 +29,4 @@ use,folder,name,target,current,description,pattern,url
 +,Kexts,VoodooPS2Controller.kext,latest,2.1.6,PS/2 controller,.*RELEASE,https://github.com/acidanthera/VoodooPS2
 +,Kexts,WhateverGreen.kext,latest,1.4.1,Patches for GPUs,.*RELEASE,https://github.com/acidanthera/WhateverGreen
 -,Kexts,Sinetek-rtsx.kext,latest,0,SD card driver,.*RELEASE,https://github.com/cholonam/Sinetek-rtsx
+Kexts,BrightnessKeys.kext,latest,Automatic handling of brightness keys,.*RELEASE,https://github.com/acidanthera/BrightnessKeys
