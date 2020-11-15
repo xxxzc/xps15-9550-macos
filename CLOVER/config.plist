@@ -14,20 +14,6 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>Rename GFX0.BRT6 to BRTX, pair with SSDT-BCKM</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>
-					IEJSVDY=
-					</data>
-					<key>Replace</key>
-					<data>
-					IEJSVFg=
-					</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
 					<string>Rename _WAK to ZWAK, pair with SSDT-DGPU</string>
 					<key>Disabled</key>
 					<false/>
@@ -42,7 +28,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename GPRW to YPRW, pair with SSDT-BCKM</string>
+					<string>Rename GPRW to YPRW, pair with SSDT-GPRW</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -56,7 +42,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>Rename RP15.PXSX._RMV to XRMV, pair with SSDT-BCKM</string>
+					<string>Rename RP15.PXSX._RMV to XRMV, pair with SSDT-TYPC</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -110,7 +96,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 alcdelay=500</string>
+		<string>darkwake=1 -v</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultVolume</key>
@@ -147,10 +133,10 @@
 		</dict>
 		<key>Properties</key>
 		<dict>
-			<key>#PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)</key>
+			<key>PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)</key>
 			<dict>
-				<key>pci-aspm-default</key>
-				<integer>0</integer>
+				<key>brcmfx-country</key>
+				<string>#a</string>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x1f,0x3)</key>
 			<dict>
@@ -163,6 +149,8 @@
 				<data>
 				AAAbGQ==
 				</data>
+				<key>agdpmod</key>
+				<string>vit9696</string>
 				<key>disable-external-gpu</key>
 				<data>
 				AQAAAA==
@@ -232,6 +220,11 @@
 		<false/>
 		<key>DellSMBIOSPatch</key>
 		<true/>
+		<key>ForceKextsToLoad</key>
+		<array>
+			<string>\System\Library\Extensions\corecapture.kext</string>
+			<string>\System\Library\Extensions\IO80211Family.kext</string>
+		</array>
 		<key>KextsToPatch</key>
 		<array>
 			<dict>
@@ -254,13 +247,19 @@
 	<dict>
 		<key>AvoidRuntimeDefrag</key>
 		<true/>
-		<key>EnableSafeModeSlide</key>
+		<key>DisableIoMapper</key>
+		<true/>
+		<key>DisableLinkeditJettison</key>
 		<true/>
 		<key>EnableWriteUnprotector</key>
+		<true/>
+		<key>ProvideConsoleGopEnable</key>
 		<true/>
 		<key>ProvideCustomSlide</key>
 		<true/>
 		<key>SetupVirtualMap</key>
+		<true/>
+		<key>SyncRuntimePermissions</key>
 		<true/>
 	</dict>
 	<key>RtVariables</key>

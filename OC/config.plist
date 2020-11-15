@@ -65,20 +65,6 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>Rename GFX0.BRT6 to BRTX, pair with SSDT-BCKM</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>
-				IEJSVDY=
-				</data>
-				<key>Replace</key>
-				<data>
-				IEJSVFg=
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
 				<string>Rename _WAK to ZWAK, pair with SSDT-DGPU</string>
 				<key>Enabled</key>
 				<true/>
@@ -93,7 +79,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename GPRW to YPRW, pair with SSDT-BCKM</string>
+				<string>Rename GPRW to YPRW, pair with SSDT-GPRW</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -107,7 +93,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>Rename RP15.PXSX._RMV to XRMV, pair with SSDT-BCKM</string>
+				<string>Rename RP15.PXSX._RMV to XRMV, pair with SSDT-TYPC</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
@@ -161,10 +147,10 @@
 	<dict>
 		<key>Add</key>
 		<dict>
-			<key>#PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)</key>
+			<key>PciRoot(0x0)/Pci(0x1c,0x0)/Pci(0x0,0x0)</key>
 			<dict>
-				<key>pci-aspm-default</key>
-				<integer>0</integer>
+				<key>brcmfx-country</key>
+				<string>#a</string>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x1f,0x3)</key>
 			<dict>
@@ -177,6 +163,8 @@
 				<data>
 				AAAbGQ==
 				</data>
+				<key>agdpmod</key>
+				<string>vit9696</string>
 				<key>disable-external-gpu</key>
 				<data>
 				AQAAAA==
@@ -326,9 +314,21 @@
 			</dict>
 			<dict>
 				<key>BundlePath</key>
+				<string>AirportItlwm.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/AirportItlwm</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
 				<string>BrcmBluetoothInjector.kext</string>
 				<key>Enabled</key>
 				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/BrcmBluetoothInjector</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -354,6 +354,16 @@
 			</dict>
 			<dict>
 				<key>BundlePath</key>
+				<string>BrightnessKeys.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/BrightnessKeys</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
 				<string>FakePCIID.kext</string>
 				<key>Enabled</key>
 				<true/>
@@ -367,6 +377,26 @@
 				<string>FakePCIID_Intel_HDMI_Audio.kext</string>
 				<key>Enabled</key>
 				<true/>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>IntelBluetoothFirmware.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/IntelBluetoothFirmware</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>IntelBluetoothInjector.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/IntelBluetoothInjector</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -417,6 +447,16 @@
 				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/SMCProcessor</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>Sinetek-rtsx.kext</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/Sinetek-rtsx</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -496,11 +536,11 @@
 			<true/>
 			<key>DisableIoMapper</key>
 			<true/>
+			<key>DisableLinkeditJettison</key>
+			<true/>
 			<key>DisableRtcChecksum</key>
 			<true/>
 			<key>PowerTimeoutKernelPanic</key>
-			<true/>
-			<key>ThirdPartyDrives</key>
 			<true/>
 		</dict>
 	</dict>
@@ -514,6 +554,8 @@
 		<dict>
 			<key>HibernateMode</key>
 			<string>None</string>
+			<key>PollAppleHotKeys</key>
+			<true/>
 			<key>ShowPicker</key>
 			<true/>
 			<key>Timeout</key>
@@ -523,6 +565,8 @@
 		<dict>
 			<key>DisplayLevel</key>
 			<integer>2147483650</integer>
+			<key>Target</key>
+			<integer>3</integer>
 		</dict>
 		<key>Security</key>
 		<dict>
@@ -532,6 +576,8 @@
 			<true/>
 			<key>ScanPolicy</key>
 			<integer>0</integer>
+			<key>SecureBootModel</key>
+			<string>Disabled</string>
 			<key>Vault</key>
 			<string>Optional</string>
 		</dict>
@@ -550,9 +596,7 @@
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
-				<string>brcmfx-country=#a agdpmod=vit9696 darkwake=1 alcdelay=500</string>
-				<key>bootercfg</key>
-				<string>log=0 debug=0 level=0</string>
+				<string>darkwake=1 -v</string>
 				<key>csr-active-config</key>
 				<data>
 				ZwAAAA==
@@ -643,8 +687,6 @@
 		<key>ProtocolOverrides</key>
 		<dict>
 			<key>AppleSmcIo</key>
-			<true/>
-			<key>FirmwareVolume</key>
 			<true/>
 		</dict>
 		<key>Quirks</key>
