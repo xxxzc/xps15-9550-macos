@@ -1,3 +1,5 @@
+@deprecated
+
 # Changelog
 
 Only keep some meaningful changes. Kexts, drivers and Clover/OC will be updated to latest version if not specified.
