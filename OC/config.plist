@@ -161,13 +161,17 @@
 			<dict>
 				<key>AAPL,ig-platform-id</key>
 				<data>
-				AAAbGQ==
+				AAAWGQ==
 				</data>
 				<key>agdpmod</key>
 				<string>vit9696</string>
 				<key>disable-external-gpu</key>
 				<data>
 				AQAAAA==
+				</data>
+				<key>dpcd-max-link-rate</key>
+				<data>
+				FAAAAA==
 				</data>
 				<key>enable-hdmi-dividers-fix</key>
 				<data>
