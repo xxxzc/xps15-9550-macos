@@ -133,13 +133,13 @@
 		<dict>
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
-			<key>EnableSafeModeSlide</key>
-			<true/>
 			<key>EnableWriteUnprotector</key>
 			<true/>
 			<key>ProvideCustomSlide</key>
 			<true/>
 			<key>SetupVirtualMap</key>
+			<true/>
+			<key>SyncRuntimePermissions</key>
 			<true/>
 		</dict>
 	</dict>
@@ -659,6 +659,8 @@
 			<true/>
 			<key>MLB</key>
 			<string>C026078024NHCF91M</string>
+			<key>SystemMemoryStatus</key>
+			<string>Upgradable</string>
 			<key>SystemProductName</key>
 			<string>MacBookPro13,3</string>
 			<key>SystemSerialNumber</key>
