@@ -32,6 +32,10 @@ OpenCore in latest release can OTA to/install Big Sur, **but** installing Big Su
 
 **For 4k display user**: you need to run `python3 update.py --bigsur` (update.py in this repo) to override edid to force display running at 48Hz, otherwise your display will be blank on Big Sur. Don't worry, this script use `AAPL00,override-no-connect` property in config.plist to override EDID, you can remove it at any time. You can run `python3 update.py --edid restore` to restore this change.
 
+#### OCB: StartImage failed-Aborted or Fault CR2
+
+Possible solution: https://github.com/xxxzc/xps15-9550-macos/issues/74#issuecomment-732144560
+
 ## Post Installation
 
 Try not to use *Clover Configurator* or *OC Configurator* to open config, code editor is a better choice.

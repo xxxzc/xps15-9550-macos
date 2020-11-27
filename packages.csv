@@ -7,6 +7,7 @@ CLOVER/drivers/UEFI,OpenRuntime.efi,5122,Normal functioning of UEFI Runtime Serv
 CLOVER/drivers/UEFI,OcQuirks.efi,5122,Normal functioning of UEFI Runtime Services,CloverV2.*.zip,https://github.com/CloverHackyColor/CloverBootloader
 Drivers,HfsPlus.efi,latest,Proprietary HFS file system driver,.*RELEASE,https://github.com/acidanthera/OcBinaryData/raw/master/Drivers/HfsPlus.efi
 Kexts,AirportBrcmFixup.kext,latest,Broadcom Wi-Fi driver,.*RELEASE,https://github.com/acidanthera/AirportBrcmFixup
+Kexts,AirportItlwm.kext,v1.1.0,Intel Wi-Fi driver,.*RELEASE,https://github.com/OpenIntelWireless/itlwm
 Kexts,AppleALC.kext,latest,Native macOS HD audio,.*RELEASE,https://github.com/acidanthera/AppleALC
 Kexts,BrcmBluetoothInjector.kext,latest,Injects the BT hardware data,.*RELEASE,https://github.com/acidanthera/BrcmPatchRAM
 Kexts,BrcmFirmwareData.kext,latest,Most appropriate for bootloader injection,.*RELEASE,https://github.com/acidanthera/BrcmPatchRAM
@@ -14,8 +15,9 @@ Kexts,BrcmPatchRAM3.kext,latest,Apply the firmware update to Bluetooth,.*RELEASE
 Kexts,BrightnessKeys.kext,latest,Automatic handling of brightness keys,.*RELEASE,https://github.com/acidanthera/BrightnessKeys
 Kexts,CPUFriend.kext,latest,Dynamic CPU power management,.*RELEASE,https://github.com/acidanthera/CPUFriend
 Kexts,CPUFriendDataProvider.kext,1911,Custom frequency data,CPUFriendDataProvider.kext.zip,https://github.com/xxxzc/xps15-9550-macos
+Kexts,IntelBluetoothFirmware.kext,latest,Upload Intel Bluetooth Firmware,.*RELEASE,https://github.com/OpenIntelWireless/IntelBluetoothFirmware
+Kexts,IntelBluetoothInjector,latest,Inject the BT hardware data,.*RELEASE,https://github.com/OpenIntelWireless/IntelBluetoothFirmware
 Kexts,Lilu.kext,latest,Arbitrary kext and process patching,.*RELEASE,https://github.com/acidanthera/Lilu
-Kexts,NoTouchID.kext,latest,Disable TouchID,.*RELEASE,https://github.com/al3xtjames/NoTouchID
 Kexts,NVMeFix.kext,latest,Improve compatibility with non-Apple SSDs,.*RELEASE,https://github.com/acidanthera/NVMeFix
 Kexts,SMCBatteryManager.kext,latest,Emulation layer of AppleSmartBattery,.*RELEASE,https://github.com/acidanthera/VirtualSMC
 Kexts,SMCDellSensors.kext,latest,Add support for temperature and fan monitoring,.*RELEASE,https://github.com/acidanthera/VirtualSMC
