@@ -159,6 +159,8 @@ class Plist:
 
         if key not in parent or type(oldvalue) is bytes and type(value) is not bytes:
             value = Plist.data(value)
+        elif type(oldvalue) is bool:
+            value = value.lower() in ['1', 'true', 'yes', 'y']
         else:
             value = type(oldvalue)(value)
 
@@ -217,6 +219,7 @@ OC = Bootloader(ROOT / 'OC', foldermap={}, keymap=dict(
     uiscale='NVRAM>Add>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14>UIScale',
     bootarg='NVRAM>Add>7C436110-AB2A-4BBB-A880-FE41995C9F82>boot-args',
     timeout='Misc>Boot>Timeout',
+    showpicker='Misc>Boot>ShowPicker',
     layoutid='DeviceProperties>Add>PciRoot(0x0)/Pci(0x1f,0x3)>layout-id',
     dmlr='DeviceProperties>Add>PciRoot(0x0)/Pci(0x2,0x0)>dpcd-max-link-rate',
     edid='DeviceProperties>Add>PciRoot(0x0)/Pci(0x2,0x0)>AAPL00,override-no-connect',
@@ -260,7 +263,6 @@ def set_config(bootloader: Bootloader, kvs):
                 download_theme(bootloader, value)
                 bootloader.config.set('theme', value)
             continue
-
         old, new = config.set(key, value)
         Terminal.success('set', '>'.join(
             config.real_key(key)), 'from', old, 'to', new)
@@ -536,6 +538,10 @@ def fix_sleep():
     sh('sudo pmset -a proximitywake 0')
 
 
+def no_picker():
+    set_config(OC, 'showpicker=0')
+
+
 def done(msg: str = 'Done'):
     update_config()
 
@@ -571,6 +577,8 @@ if __name__ == "__main__":
                         help='update themes')
     parser.add_argument('--display', default=False,
                         help='fix fhd or uhd display, e.g. --display fhd')
+    parser.add_argument('--nopicker', default=False, action='store_true',
+                        help='don\'t show boot picker(only for OC)')
     parser.add_argument('--config', default=False, action='store_true',
                         help='update configs only')
     parser.add_argument('--bigsur', default=False,
@@ -586,6 +594,8 @@ if __name__ == "__main__":
         update_acpi()
     elif args.fixsleep:
         fix_sleep()
+    elif args.nopicker:
+        no_picker()
     elif args.smbios:
         if args.smbios == 'gen':
             gen_smbios()
