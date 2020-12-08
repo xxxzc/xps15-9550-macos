@@ -30,14 +30,6 @@
 
 **对于 4K 内屏用户**，目前你需要先运行 `python3 update.py --bigsur` 来修改你的内屏 EDID 使内屏运行于 48Hz 否则内屏在 Big Sur 上将点不亮。不用担心，它只是在 config.plist 文件中使用 `AAPL00,override-no-connect` 属性覆盖 EDID，随时可以去除。可以运行 `python3 update.py --edid restore` 来复原。
 
-## 安装后
-
-请尽量避免使用 *Clover Configurator* 或者 *OC Configurator* 打开配置文件，建议直接使用代码编辑器打开。
-
-如果你更新或增加了Kexts/Drivers，你可以运行 `python3 update.py --config`，它会自动将这些更新信息更新到 config.plist 中，如果修改了 ACPI，则运行 `python3 update.py --acpi`.
-
-可以参考 [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) 的安装教程和一些常见问题的解决方法。但使用本库的配置遇到问题时，请在本库创建 issue。
-
 ### FHD内屏
 
 如果你的笔记本内屏是1080p，你需要修改以下配置：
@@ -45,7 +37,15 @@
 - OC:  `NVRAM/Add/4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14/UIScale`  -> `AQ==`
 - CLOVER: `BootGraphics/UIScale` -> `1`
 
-或者运行 `python3 update.py --display fhd`。
+或者运行 `python3 update.py --display fhd`
+
+## 安装后
+
+可以使用 *Clover Configurator* 或者 *OpenCore Configurator* 修改配置文件，但更建议直接使用代码编辑器。
+
+如果你更新或增加了Kexts/Drivers，你可以运行 `python3 update.py --config`，它会自动将这些更新信息更新到 config.plist 中，如果修改了 ACPI，则运行 `python3 update.py --acpi`.
+
+可以参考 [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) 的安装教程和一些常见问题的解决方法。但使用本库的配置遇到问题时，请在本库创建 issue。
 
 ### 静默启动
 
@@ -80,7 +80,19 @@ sudo pmset -a proximitywake 0
 
 如果你没有三码，你可以运行 `python3 update.py --smbios gen` 来生成一份新的三码，会自动保存到 `gen_smbios.json` 和 config 中。
 
+#### SmUUID
+
 建议你使用 Windows 的 UUID 作为 SmUUID，特别是如果你需要使用 OpenCore 启动 Windows：在 Windows 的 CMD 中运行 `wmic csproduct get UUID` 即可得到该 UUID。
+
+#### ROM
+
+ROM 是修复 iServices 的关键属性之一，你可以运行：
+
+```python
+python3 update.py --set rom=$(ifconfig en0 | awk '/ether/{print $2}' | sed -e 's/\://g')
+```
+
+以使用 en0 的 MAC 地址作为 ROM。
 
 ### 平滑字体
 

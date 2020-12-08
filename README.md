@@ -36,16 +36,6 @@ OpenCore in latest release can OTA to/install Big Sur, **but** installing Big Su
 
 Possible solution: https://github.com/xxxzc/xps15-9550-macos/issues/74#issuecomment-732144560
 
-## Post Installation
-
-Try not to use *Clover Configurator* or *OC Configurator* to open config, code editor is a better choice.
-
-If you changed kexts/drivers, you can run `python3 update.py --config` to update these info to config file. If you changed ACPI, you can run `python3 update.py --acpi`.
-
-You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) for the installation guide and solutions to some common issues.
-
-But note that please create an issue **in this repository** if you encounter any problem when **using this config** (Please don't disturb others). My writing in English is poooooor:(, but I can read :).
-
 ### FHD Display
 
 If your laptop display is 1080p, you have to modify your config.plist:
@@ -54,6 +44,16 @@ If your laptop display is 1080p, you have to modify your config.plist:
 - CLOVER: `BootGraphics/UIScale` -> `1`
 
 Or simply run `python3 update.py --display fhd`.
+
+## Post Installation
+
+You can use *Clover Configurator* or *OpenCore Configurator*, but code editor is a better choice.
+
+If you changed kexts/drivers, you can run `python3 update.py --config` to update these info to config file. If you changed ACPI, you can run `python3 update.py --acpi`.
+
+You may refer to [wmchris's tutorial](https://github.com/wmchris/DellXPS15-9550-OSX) for the installation guide and solutions to some common issues.
+
+But note that please create an issue **in this repository** if you encounter any problem when **using this config** (Please don't disturb others). My writing in English is poooooor:(, but I can read :).
 
 ### Silent Boot
 
@@ -64,8 +64,6 @@ python3 update.py --set bootarg--v
 ```
 
 ### Headphone
-
-~~@qeeqez found layout-id 30 is good to drive headphone without PluginFix([Overall Audio State](https://github.com/daliansky/XiaoMi-Pro/issues/96)), and it also works for me.~~ 
 
 After updating to 10.15, headphone will be distorted after a few minutes in battery mode. 
 
@@ -92,7 +90,19 @@ Please use your own SN, MLB and SmUUID, you can copy [smbios.json](./sample_smbi
 
 If you don't have those values, you can run `python3 update.py --smbios gen` to generate them(will saved to both `gen_smbios.json` and config file).
 
+#### SmUUID
+
 Highly recommend you to use  **Windows system UUID** as SmUUID: run  `wmic csproduct get UUID` in Windows CMD.
+
+#### ROM
+
+ROM is one of the key attributes to fix iServices. You can run:
+
+````python
+python3 update.py --set rom=$(ifconfig en0 | awk '/ether/{print $2}' | sed -e 's/\://g')
+````
+
+to use the MAC address of en0 as ROM.
 
 ### Font Smoothing
 
