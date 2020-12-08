@@ -1,7 +1,7 @@
-// Fix shutdown to restart issue[1]
+// Fix shutdown to restart issue
 // Patch: Rename _PTS to ZPTS
-// Find: X1BUUwE=
-// Replace: WlBUUwE=
+// Find: 5F 50 54 53 01
+// Replace: 5A 50 54 53 01
 // Reference:
 // [1] https://github.com/xxxzc/xps15-9550-macos/issues/45
 // [2] https://github.com/RehabMan/OS-X-Clover-Laptop-Config/blob/master/hotpatch/SSDT-PTSWAK.dsl
