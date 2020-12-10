@@ -226,15 +226,21 @@
 	</dict>
 	<key>KernelAndKextPatches</key>
 	<dict>
+		<key>AppleIntelCPUPM</key>
+		<true/>
 		<key>Debug</key>
 		<false/>
 		<key>DellSMBIOSPatch</key>
+		<true/>
+		<key>EightApple</key>
 		<true/>
 		<key>ForceKextsToLoad</key>
 		<array>
 			<string>\System\Library\Extensions\corecapture.kext</string>
 			<string>\System\Library\Extensions\IO80211Family.kext</string>
 		</array>
+		<key>KernelPm</key>
+		<true/>
 		<key>KextsToPatch</key>
 		<array>
 			<dict>
@@ -280,7 +286,7 @@
 		<key>EnableSafeModeSlide</key>
 		<true/>
 		<key>EnableWriteUnprotector</key>
-		<true/>
+		<false/>
 		<key>ExternalDiskIcons</key>
 		<false/>
 		<key>ForceExitBootServices</key>
